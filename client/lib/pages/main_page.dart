@@ -41,7 +41,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
           if (data[category] != null) {
             menuList = data[category];
           }
-        }); 
+        });
       });
     }
   }
@@ -83,7 +83,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
             if (data[category] != null) {
               menuList = data[category];
             }
-          }); 
+          });
         } else {
           categoryList[i].setIsPressed(false);
         }
@@ -156,7 +156,9 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, '/cart');
+              },
               icon: FaIcon(
                 FontAwesomeIcons.shoppingBag,
               ),

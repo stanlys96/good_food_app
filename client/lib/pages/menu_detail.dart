@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../components/star_widget.dart';
 import '../components/icon_box.dart';
+import '../components/big_icon_box.dart';
+import '../components/big_button.dart';
 
 class MenuDetailPage extends StatefulWidget {
   static final routeName = '/menuDetail';
@@ -153,24 +155,11 @@ class _MenuDetailPageState extends State<MenuDetailPage> {
                             ),
                           ],
                         ),
-                        InkWell(
-                          onTap: () {},
-                          child: Container(
-                            height: 50.0,
-                            width: 50.0,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Color.fromRGBO(238, 238, 238, 1),
-                              ),
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                            child: Icon(
-                              !isPressed
-                                  ? Icons.favorite_border_outlined
-                                  : Icons.favorite,
-                              color: Colors.red,
-                            ),
-                          ),
+                        BigIconBox(
+                          icon: !isPressed
+                              ? Icons.favorite_border_outlined
+                              : Icons.favorite,
+                          color: Colors.red,
                         ),
                       ],
                     ),
@@ -227,24 +216,8 @@ class _MenuDetailPageState extends State<MenuDetailPage> {
                     SizedBox(
                       height: 15.0,
                     ),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        vertical: 15.0,
-                      ),
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: Color.fromRGBO(252, 219, 19, 1),
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                      child: Text(
-                        'Add to Cart',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 17.0,
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
+                    BigButton(
+                      title: 'Add to Cart',
                     ),
                   ],
                 ),

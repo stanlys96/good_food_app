@@ -1,0 +1,113 @@
+import 'package:flutter/material.dart';
+
+class CartBox extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10.0),
+      child: Container(
+        padding: EdgeInsets.all(14.0),
+        decoration: BoxDecoration(
+          color: Color.fromRGBO(246, 246, 246, 1),
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(20.0),
+              child: Image.asset(
+                'images/burger_1.jpeg',
+                width: 70.0,
+              ),
+            ),
+            Expanded(
+              flex: 2,
+              child: Container(
+                padding: EdgeInsets.only(
+                  left: 12.0,
+                  right: 5.0,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Chicken Burger',
+                      style: TextStyle(
+                        fontSize: 18.0,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 8.0,
+                    ),
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Color.fromRGBO(238, 238, 238, 1),
+                                width: 2.0,
+                              ),
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                            child: Icon(Icons.add),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                          child: Text(
+                            '1',
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Color.fromRGBO(238, 238, 238, 1),
+                                width: 2.0,
+                              ),
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                            child: Icon(Icons.remove),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              child: Text(
+                'Rp 950.000',
+                style: TextStyle(
+                  fontWeight: FontWeight.w800,
+                  fontSize: 15.0,
+                ),
+              ),
+            ),
+            IconButton(
+              constraints: BoxConstraints(
+                maxWidth: 30.0,
+                maxHeight: 100.0,
+              ),
+              onPressed: () {},
+              icon: Center(
+                child: Icon(
+                  Icons.delete,
+                  color: Colors.red,
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
