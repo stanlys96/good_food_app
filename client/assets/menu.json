@@ -1,0 +1,199 @@
+{
+  "burgers": [
+    {
+      "id": 1,
+      "title": "Chicken Burger",
+      "subTitle": "Flavoroso",
+      "price": 80000,
+      "imageUrl": "images/burger_1.jpeg",
+      "description": "Food consisting one or more cooked patties of ground meat, usually beef, placed inside a sliced bread roll or bun.",
+      "rating": 5
+    },
+    {
+      "id": 2,
+      "title": "Salmon Burger",
+      "subTitle": "Salty Squid",
+      "price": 95000,
+      "imageUrl": "images/burger_2.jpeg",
+      "description": "Food consisting one or more cooked patties of ground meat, usually beef, placed inside a sliced bread roll or bun.",
+      "rating": 4
+    },
+    {
+      "id": 3,
+      "title": "Beef Cheese Burger",
+      "subTitle": "Masala",
+      "price": 60000,
+      "imageUrl": "images/burger_3.jpeg",
+      "description": "Food consisting one or more cooked patties of ground meat, usually beef, placed inside a sliced bread roll or bun.",
+      "rating": 5
+    },
+    {
+      "id": 4,
+      "title": "Vegan Burger",
+      "subTitle": "Veganic Corner",
+      "price": 75000,
+      "imageUrl": "images/burger_4.jpeg",
+      "description": "Food consisting one or more cooked patties of ground meat, usually beef, placed inside a sliced bread roll or bun.",
+      "rating": 4
+    },
+    {
+      "id": 5,
+      "title": "Lamb Burger",
+      "subTitle": "New Zealand Fresh",
+      "price": 105000,
+      "imageUrl": "images/burger_5.jpeg",
+      "description": "Food consisting one or more cooked patties of ground meat, usually beef, placed inside a sliced bread roll or bun.",
+      "rating": 4
+    }
+  ],
+  "noodles": [
+    {
+      "id": 1,
+      "title": "Spaghetti & Meatballs",
+      "subTitle": "Italian Special",
+      "price": 75000,
+      "imageUrl": "images/noodle_1.jpeg",
+      "description": "Five meatballs on spaghetti, crushed tomato marinara and parmesan.",
+      "rating": 4
+    },
+    {
+      "id": 2,
+      "title": "Grilled Chicken Noodles",
+      "subTitle": "Chinese Special",
+      "price": 85000,
+      "imageUrl": "images/noodle_2.jpeg",
+      "description": "Asian-style noodles sautéed in orange sauce with snap peas, napa and red cabbage, then finished with grilled chicken, green onions, black sesame seeds and cilantro.",
+      "rating": 5
+    },
+    {
+      "id": 3,
+      "title": "Japanese Pan Noodles",
+      "subTitle": "Japanese Special",
+      "price": 75000,
+      "imageUrl": "images/noodle_3.jpeg",
+      "description": "Caramelized udon noodles in a sweet soy sauce, broccoli, mushrooms, carrots, black sesame seeds and cilantro.",
+      "rating": 5
+    },
+    {
+      "id": 4,
+      "title": "Pad Thai",
+      "subTitle": "Thai Special",
+      "price": 80000,
+      "imageUrl": "images/noodle_4.jpeg",
+      "description": "Rice noodle stir-fry with scrambled egg, napa and red cabbage, citrus, peanuts, green onions and cilantro.",
+      "rating": 4
+    },
+    {
+      "id": 5,
+      "title": "Spicy Korean Beef Noodles",
+      "subTitle": "Korean Special",
+      "price": 105000,
+      "imageUrl": "images/noodle_5.jpeg",
+      "description": "Asian-style noodles tossed with a sweet and spicy Korean-style Gochujang BBQ sauce, marinated steak, napa and red cabbage, spinach, topped with cucumber, green onions and cilantro.",
+      "rating": 4
+    }
+  ],
+  "drinks": [
+    {
+      "id": 1,
+      "title": "Strawberry Tea",
+      "subTitle": "Tea",
+      "price": 35000,
+      "imageUrl": "images/drink_1.jpeg",
+      "description": "The classic tea paired with refreshing strawberry creates a subtle taste loved by those looking for a rosy evening with GFB.",
+      "rating": 5
+    },
+    {
+      "id": 2,
+      "title": "Basil Tea",
+      "subTitle": "Tea",
+      "price": 65000,
+      "imageUrl": "images/drink_2.jpg",
+      "description": "The classic tea paired with refreshing strawberry creates a subtle taste loved by those looking for a rosy evening with GFB.",
+      "rating": 4
+    },
+    {
+      "id": 3,
+      "title": "Malibu Cocktail",
+      "subTitle": "Cocktail",
+      "price": 125000,
+      "imageUrl": "images/drink_3.jpeg",
+      "description": "The classic tea paired with refreshing strawberry creates a subtle taste loved by those looking for a rosy evening with GFB.",
+      "rating": 5
+    },
+    {
+      "id": 4,
+      "title": "Irish Cocktail",
+      "subTitle": "Cocktail",
+      "price": 155000,
+      "imageUrl": "images/drink_4.jpeg",
+      "description": "The classic tea paired with refreshing strawberry creates a subtle taste loved by those looking for a rosy evening with GFB.",
+      "rating": 5
+    },
+    {
+      "id": 5,
+      "title": "Heineken",
+      "subTitle": "Alcoholic",
+      "price": 125000,
+      "imageUrl": "images/drink_5.jpeg",
+      "description": "The classic tea paired with refreshing strawberry creates a subtle taste loved by those looking for a rosy evening with GFB.",
+      "rating": 5
+    },
+    {
+      "id": 6,
+      "title": "Dragon Smoothie",
+      "subTitle": "Smoothie",
+      "price": 85000,
+      "imageUrl": "images/drink_6.jpeg",
+      "description": "The classic tea paired with refreshing strawberry creates a subtle taste loved by those looking for a rosy evening with GFB.",
+      "rating": 5
+    }
+  ],
+  "snacks": [
+    {
+      "id": 1,
+      "title": "French Fries",
+      "subTitle": "Crispy Fries",
+      "price": 45000,
+      "imageUrl": "images/snack_1.jpeg",
+      "description": "Food consisting one or more cooked patties of ground meat, usually beef, placed inside a sliced bread roll or bun.",
+      "rating": 4
+    },
+    {
+      "id": 2,
+      "title": "Nachos",
+      "subTitle": "Mexican Special",
+      "price": 55000,
+      "imageUrl": "images/snack_2.jpeg",
+      "description": "Food consisting one or more cooked patties of ground meat, usually beef, placed inside a sliced bread roll or bun.",
+      "rating": 5
+    },
+    {
+      "id": 3,
+      "title": "Salad",
+      "subTitle": "Healthy Food",
+      "price": 45000,
+      "imageUrl": "images/snack_3.jpeg",
+      "description": "Food consisting one or more cooked patties of ground meat, usually beef, placed inside a sliced bread roll or bun.",
+      "rating": 4
+    },
+    {
+      "id": 4,
+      "title": "Chicken Tenders",
+      "subTitle": "Chicken Special",
+      "price": 85000,
+      "imageUrl": "images/snack_4.jpeg",
+      "description": "Food consisting one or more cooked patties of ground meat, usually beef, placed inside a sliced bread roll or bun.",
+      "rating": 5
+    },
+    {
+      "id": 5,
+      "title": "Ham Sandwich",
+      "subTitle": "Sandwich",
+      "price": 90000,
+      "imageUrl": "images/snack_5.jpeg",
+      "description": "Food consisting one or more cooked patties of ground meat, usually beef, placed inside a sliced bread roll or bun.",
+      "rating": 4
+    }
+  ]
+}

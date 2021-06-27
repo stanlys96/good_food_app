@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "563895276674",
+    "project_id": "good-food-app-1498c",
+    "storage_bucket": "good-food-app-1498c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:563895276674:android:122724e75e985c913b509b",
+        "android_client_info": {
+          "package_name": "com.example.food_delivery_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "563895276674-n3k4jadthtihiqprhe2dkq1viv0h34cj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAGngtgNMA7CWKDVPrXqtfIvw6AHCRhR4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "563895276674-n3k4jadthtihiqprhe2dkq1viv0h34cj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
