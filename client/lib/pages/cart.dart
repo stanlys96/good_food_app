@@ -12,6 +12,7 @@ class CartPage extends StatefulWidget {
 class _CartPageState extends State<CartPage> {
   int quantity = 0;
   bool isPressed = false;
+  List cart = [];
   void changeValue(task) {
     setState(() {
       if (task == 'minus') {
@@ -23,6 +24,11 @@ class _CartPageState extends State<CartPage> {
         quantity++;
       }
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override

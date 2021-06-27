@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const { comparePassword } = require('../helpers/bcrypt');
 const { generateToken } = require('../helpers/jwt');
+const User = require('../models/User');
 
 class UserController {
   static async register(req, res) {
@@ -43,6 +44,20 @@ class UserController {
     try {
       const cart = await User.addToCart(req.body);
       res.json(cart);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  static async getUser(req, res) {
+    try {
+      const { email } = req.params.email;
+      const User = await User.findingOne(email);
+      res.json({
+        full_name: user.full_name,
+        email: user.email,
+        cart: user.cart
+      })
     } catch (err) {
       console.log(err);
     }
