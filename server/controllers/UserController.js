@@ -1,7 +1,6 @@
 const User = require('../models/User');
 const { comparePassword } = require('../helpers/bcrypt');
 const { generateToken } = require('../helpers/jwt');
-const User = require('../models/User');
 
 class UserController {
   static async register(req, res) {
@@ -51,8 +50,8 @@ class UserController {
 
   static async getUser(req, res) {
     try {
-      const { email } = req.params.email;
-      const User = await User.findingOne(email);
+      const email = req.params.email;
+      const user = await User.findingOne(email);
       res.json({
         full_name: user.full_name,
         email: user.email,
