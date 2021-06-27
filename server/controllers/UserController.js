@@ -7,7 +7,7 @@ class UserController {
     try {
       const user = await User.register(req.body);
       res.json(user.ops[0]);
-    } catch(err) {
+    } catch (err) {
       console.log(err);
     }
   }
@@ -34,7 +34,16 @@ class UserController {
       } else {
         res.json({ message: 'Username or password is incorrect!' });
       }
-    } catch(err) {
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  static async addToCart(req, res) {
+    try {
+      const cart = await User.addToCart(req.body);
+      res.json(cart);
+    } catch (err) {
       console.log(err);
     }
   }

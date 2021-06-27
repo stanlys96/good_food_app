@@ -10,6 +10,19 @@ class User {
   static findingOne(email) {
     return getDatabase().collection('users').findOne({ email });
   }
+
+  static addToCart({ email, title, quantity, price, imageUrl }) {
+    return getDatabase().collection('users').update({ email }, {
+      $push: {
+        cart: {
+          title,
+          quantity,
+          price,
+          imageUrl
+        },
+      }
+    })
+  }
 }
 
 module.exports = User;

@@ -5,7 +5,7 @@ class MenuController {
     try {
       const burgers = await Menu.getBurgers();
       res.json(burgers);
-    } catch(err) {
+    } catch (err) {
       console.log(err);
     }
   }
@@ -14,7 +14,7 @@ class MenuController {
     try {
       const noodles = await Menu.getNoodles();
       res.json(noodles);
-    } catch(err) {
+    } catch (err) {
       console.log(err);
     }
   }
@@ -22,7 +22,7 @@ class MenuController {
     try {
       const drinks = await Menu.getDrinks();
       res.json(drinks);
-    } catch(err) {
+    } catch (err) {
       console.log(err);
     }
   }
@@ -30,7 +30,7 @@ class MenuController {
     try {
       const snacks = await Menu.getSnacks();
       res.json(snacks);
-    } catch(err) {
+    } catch (err) {
       console.log(err);
     }
   }
@@ -39,7 +39,7 @@ class MenuController {
     try {
       const menu = await Menu.getAll();
       res.json(menu);
-    } catch(err) {
+    } catch (err) {
       console.log(err);
     }
   }
