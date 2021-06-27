@@ -4,11 +4,10 @@ import '../class/category.dart';
 import '../class/menu.dart';
 import '../components/category_card.dart';
 import '../components/menu_card.dart';
-import 'package:intl/intl.dart';
 import '../services/authService.dart';
 import 'dart:core';
-
-final oCcy = NumberFormat("#,##0.00", "id_ID");
+import '../utility/priceFormatter.dart';
+import './cart.dart';
 
 class MainPage extends StatefulWidget {
   static final routeName = '/main';
@@ -20,6 +19,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   late AnimationController controller;
   final ScrollController _scrollController = ScrollController();
   String category = 'burgers';
+  String userEmail = '';
   List categoryList = [];
   List menuList = [];
   List allData = [];
@@ -35,13 +35,11 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     if (result == null) {
       print('Unable to retrieve');
     } else {
-      setState(() {
-        allData = result.data;
-        allData.forEach((data) {
-          if (data[category] != null) {
-            menuList = data[category];
-          }
-        });
+      allData = result.data;
+      allData.forEach((data) {
+        if (data[category] != null) {
+          menuList = data[category];
+        }
       });
     }
   }
@@ -51,20 +49,17 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     if (result.data == null) {
       print('Unable to retrieve categories');
     } else {
-      setState(() {
-        result.data.forEach((data) {
-          categoryList.add(
-            Category(
-              id: data['id'],
-              title: data['title'],
-              isPressed: data['id'] == 1 ? true : false,
-              icon:
-                  Image.asset('images/${data['title'].toLowerCase()}-icon.png'),
-            ),
-          );
-        });
-        categoryList.sort((a, b) => a.id.compareTo(b.id));
+      result.data.forEach((data) {
+        categoryList.add(
+          Category(
+            id: data['id'],
+            title: data['title'],
+            isPressed: data['id'] == 1 ? true : false,
+            icon: Image.asset('images/${data['title'].toLowerCase()}-icon.png'),
+          ),
+        );
       });
+      categoryList.sort((a, b) => a.id.compareTo(b.id));
     }
   }
 
@@ -93,7 +88,6 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    super.initState();
     fetchData();
     fetchCategoryData();
     controller = AnimationController(
@@ -103,17 +97,20 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
         setState(() {});
       });
     controller.repeat(reverse: true);
+    super.initState();
   }
 
   @override
   void dispose() {
     super.dispose();
     controller.dispose();
+    _scrollController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final rcvdData = ModalRoute.of(context)?.settings.arguments as Map;
+    userEmail = rcvdData['email'];
     if (menuList.length == 0 && categoryList.length == 0) {
       return Scaffold(
         body: SafeArea(
@@ -157,7 +154,14 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
             ),
             IconButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/cart');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CartPage(
+                      userEmail: userEmail,
+                    ),
+                  ),
+                );
               },
               icon: FaIcon(
                 FontAwesomeIcons.shoppingBag,

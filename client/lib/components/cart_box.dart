@@ -1,6 +1,16 @@
 import 'package:flutter/material.dart';
+import '../utility/priceFormatter.dart';
 
 class CartBox extends StatelessWidget {
+  String title;
+  int quantity;
+  String imageUrl;
+  int price;
+  CartBox(
+      {required this.title,
+      required this.quantity,
+      required this.imageUrl,
+      required this.price});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -16,7 +26,7 @@ class CartBox extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(20.0),
               child: Image.asset(
-                'images/burger_1.jpeg',
+                imageUrl,
                 width: 70.0,
               ),
             ),
@@ -31,7 +41,7 @@ class CartBox extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Chicken Burger',
+                      title,
                       style: TextStyle(
                         fontSize: 18.0,
                       ),
@@ -57,9 +67,9 @@ class CartBox extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10.0),
                           child: Text(
-                            '1',
+                            quantity.toString(),
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 17.0,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -85,7 +95,7 @@ class CartBox extends StatelessWidget {
             ),
             Expanded(
               child: Text(
-                'Rp 950.000',
+                'Rp ${oCcy.format(price).toString()}',
                 style: TextStyle(
                   fontWeight: FontWeight.w800,
                   fontSize: 15.0,

@@ -89,4 +89,13 @@ class AuthService {
       print(e);
     }
   }
+
+  getUserData(email) async {
+    try {
+      return await dio.get('https://good-food-app.herokuapp.com/user/$email',
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+    } catch (e) {
+      print(e);
+    }
+  }
 }

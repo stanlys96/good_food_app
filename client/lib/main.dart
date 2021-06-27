@@ -3,7 +3,6 @@ import './pages/sign_in_page.dart';
 import './pages/home_page.dart';
 import './pages/sign_up_page.dart';
 import './pages/main_page.dart';
-import './pages/cart.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +23,6 @@ class MyApp extends StatelessWidget {
         SignInPage.routeName: (context) => SignInPage(),
         SignUpPage.routeName: (context) => SignUpPage(),
         MainPage.routeName: (context) => MainPage(),
-        CartPage.routeName: (context) => CartPage(),
       },
     );
   }

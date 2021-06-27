@@ -22,7 +22,10 @@ class _SignInPageState extends State<SignInPage> {
       if (parsed['message'] == 'Username or password is incorrect!') {
         showError(parsed['message'].toString(), context);
       } else {
-        Navigator.pushNamed(context, '/main', arguments: {"fullName": parsed['full_name']});
+        Navigator.pushNamed(context, '/main', arguments: {
+          "fullName": parsed['full_name'],
+          "email": parsed['email']
+        });
       }
     });
   }
