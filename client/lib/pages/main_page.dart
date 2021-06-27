@@ -9,14 +9,12 @@ import '../services/authService.dart';
 import 'dart:core';
 
 final oCcy = NumberFormat("#,##0.00", "id_ID");
-var numberFormatter = NumberFormat.currency(locale: "id_ID");
 
 class MainPage extends StatefulWidget {
   static final routeName = '/main';
   @override
   _MainPageState createState() => _MainPageState();
-} 
-MenuList menu = MenuList();
+}
 
 class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   late AnimationController controller;
@@ -25,6 +23,8 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   List categoryList = [];
   List menuList = [];
   List allData = [];
+
+  MenuList menu = MenuList();
 
   signOut() async {
     Navigator.pushNamed(context, '/home');
@@ -68,26 +68,6 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    fetchData();
-    fetchCategoryData();
-    controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 2),
-    )..addListener(() {
-        setState(() {});
-      });
-    controller.repeat(reverse: true);
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
   void changeCardState(int id) {
     setState(() {
       for (int i = 0; i < categoryList.length; i++) {
@@ -109,6 +89,26 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
         }
       }
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+    fetchCategoryData();
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    )..addListener(() {
+        setState(() {});
+      });
+    controller.repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    controller.dispose();
   }
 
   @override

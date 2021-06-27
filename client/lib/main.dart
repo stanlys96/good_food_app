@@ -3,11 +3,9 @@ import './pages/sign_in_page.dart';
 import './pages/home_page.dart';
 import './pages/sign_up_page.dart';
 import './pages/main_page.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  WidgetsFlutterBinding.ensureInitialized(); 
   runApp(MyApp());
 }
 

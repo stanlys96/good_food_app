@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../services/authService.dart';
 import 'dart:convert';
+import '../utility/dialog.dart';
 
 class SignInPage extends StatefulWidget {
   static final routeName = '/signIn';
@@ -15,31 +16,11 @@ class _SignInPageState extends State<SignInPage> {
   String _password = '';
   String _fullName = '';
 
-  showError(String errormessage) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('ERROR'),
-          content: Text(errormessage),
-          actions: <Widget>[
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('OK'),
-            )
-          ],
-        );
-      },
-    );
-  }
-
   signIn() async {
     AuthService().login(_email, _password).then((val) {
       final parsed = jsonDecode(val.toString()) as Map;
       if (parsed['message'] == 'Username or password is incorrect!') {
-        showError(parsed['message'].toString());
+        showError(parsed['message'].toString(), context);
       } else {
         Navigator.pushNamed(context, '/main', arguments: {"fullName": parsed['full_name']});
       }
