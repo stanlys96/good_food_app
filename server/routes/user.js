@@ -6,5 +6,7 @@ router.get('/:email', UserController.getUser);
 router.post('/register', UserController.register);
 router.post('/login', UserController.login);
 router.post('/:email/addToCart', UserController.addToCart);
+router.post('/:email/reduceQuantity', UserController.reduceQuantity);
+router.post('/:email/increaseQuantity', UserController.increaseQuantity);
 
 module.exports = router;

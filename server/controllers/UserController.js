@@ -49,6 +49,26 @@ class UserController {
     }
   }
 
+  static async reduceQuantity(req, res) {
+    try {
+      const email = req.params.email;
+      const cart = await User.reduceItemQuantity(email, req.body);
+      res.json(cart);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  static async increaseQuantity(req, res) {
+    try {
+      const email = req.params.email;
+      const cart = await User.addItemQuantity(email, req.body);
+      res.json(cart);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   static async getUser(req, res) {
     try {
       const email = req.params.email;

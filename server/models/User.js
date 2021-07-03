@@ -49,6 +49,26 @@ class User {
       }
     }))
   }
+
+  static reduceItemQuantity(email, { title }) {
+    getDatabase().collection('users').findOne({ email }).then((result) => {
+      result.cart.forEach((data) => {
+        if (data.title == title) {
+          return getDatabase().collection('users').update({ email, 'cart.title': title }, { $inc: { 'cart.$.quantity': -1 } })
+        }
+      });
+    });
+  }
+
+  static addItemQuantity(email, { title }) {
+    getDatabase().collection('users').findOne({ email }).then((result) => {
+      result.cart.forEach((data) => {
+        if (data.title == title) {
+          return getDatabase().collection('users').update({ email, 'cart.title': title }, { $inc: { 'cart.$.quantity': +1 } })
+        }
+      });
+    });
+  }
 }
 
 module.exports = User;
