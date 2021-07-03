@@ -69,6 +69,16 @@ class UserController {
     }
   }
 
+  static async deleteOneItem(req, res) {
+    try {
+      const email = req.params.email;
+      const item = await User.deleteOneItem(email, req.body);
+      res.json(item);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   static async getUser(req, res) {
     try {
       const email = req.params.email;

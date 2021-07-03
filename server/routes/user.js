@@ -8,5 +8,6 @@ router.post('/login', UserController.login);
 router.post('/:email/addToCart', UserController.addToCart);
 router.post('/:email/reduceQuantity', UserController.reduceQuantity);
 router.post('/:email/increaseQuantity', UserController.increaseQuantity);
+router.delete('/:email/deleteOneItem', UserController.deleteOneItem);
 
 module.exports = router;
