@@ -27,22 +27,25 @@ class User {
           }
         })
       } else {
+        let found = false;
         result.cart.forEach((data) => {
-          if (data.title == title) {
+          if (data.title === title) {
+            found = true;
             return getDatabase().collection('users').update({ email, 'cart.title': title }, { $inc: { "cart.$.quantity": quantity } })
-          } else {
-            return getDatabase().collection('users').update({ email: email }, {
-              $push: {
-                cart: {
-                  title,
-                  quantity,
-                  price,
-                  imageUrl
-                },
-              }
-            })
           }
         })
+        if (!found) {
+          return getDatabase().collection('users').update({ email: email }, {
+            $push: {
+              cart: {
+                title,
+                quantity,
+                price,
+                imageUrl
+              },
+            }
+          })
+        }
       }
     }))
   }
