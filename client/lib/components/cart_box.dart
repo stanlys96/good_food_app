@@ -40,10 +40,13 @@ class CartBox extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      title,
-                      style: TextStyle(
-                        fontSize: 18.0,
+                    FittedBox(
+                      fit: BoxFit.fill,
+                      child: Text(
+                        title,
+                        style: TextStyle(
+                          fontSize: 18.0,
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -93,12 +96,18 @@ class CartBox extends StatelessWidget {
                 ),
               ),
             ),
+            SizedBox(
+              width: 5.0,
+            ),
             Expanded(
-              child: Text(
-                'Rp ${oCcy.format(price).toString()}',
-                style: TextStyle(
-                  fontWeight: FontWeight.w800,
-                  fontSize: 15.0,
+              child: FittedBox(
+                fit: BoxFit.fill,
+                child: Text(
+                  'Rp ${oCcy.format(price).toString()}',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 15.0,
+                  ),
                 ),
               ),
             ),

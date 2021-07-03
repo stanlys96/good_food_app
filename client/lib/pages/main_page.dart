@@ -88,6 +88,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
 
   @override
   void initState() {
+    super.initState();
     fetchData();
     fetchCategoryData();
     controller = AnimationController(
@@ -97,14 +98,13 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
         setState(() {});
       });
     controller.repeat(reverse: true);
-    super.initState();
   }
 
   @override
   void dispose() {
-    super.dispose();
     controller.dispose();
     _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -315,6 +315,8 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                       price: oCcy.format(menuList[index]['price']).toString(),
                       description: menuList[index]['description'],
                       rating: menuList[index]['rating'],
+                      email: userEmail,
+                      intPrice: menuList[index]['price'],
                     );
                   },
                 ),

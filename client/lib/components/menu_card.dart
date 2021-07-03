@@ -8,6 +8,8 @@ class MenuCard extends StatelessWidget {
   String imageUrl;
   String description;
   int rating;
+  String email;
+  int intPrice;
 
   MenuCard({
     required this.title,
@@ -16,6 +18,8 @@ class MenuCard extends StatelessWidget {
     required this.imageUrl,
     required this.description,
     required this.rating,
+    required this.email,
+    required this.intPrice,
   });
   @override
   Widget build(BuildContext context) {
@@ -30,6 +34,8 @@ class MenuCard extends StatelessWidget {
               description: description,
               imageUrl: imageUrl,
               price: price,
+              email: email,
+              intPrice: intPrice,
             ),
           ),
         );

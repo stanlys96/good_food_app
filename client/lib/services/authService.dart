@@ -98,4 +98,20 @@ class AuthService {
       print(e);
     }
   }
+
+  addToCart(email, title, quantity, price, imageUrl) async {
+    try {
+      return await dio.post(
+          'https://good-food-app.herokuapp.com/user/$email/addToCart',
+          data: {
+            "title": title,
+            "quantity": quantity,
+            "price": price,
+            "imageUrl": imageUrl,
+          },
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+    } catch (e) {
+      print(e);
+    }
+  }
 }

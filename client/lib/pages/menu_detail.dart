@@ -4,6 +4,8 @@ import '../components/star_widget.dart';
 import '../components/icon_box.dart';
 import '../components/big_icon_box.dart';
 import '../components/big_button.dart';
+import '../services/authService.dart';
+import '../utility/dialog.dart';
 
 class MenuDetailPage extends StatefulWidget {
   static final routeName = '/menuDetail';
@@ -12,6 +14,8 @@ class MenuDetailPage extends StatefulWidget {
   String description;
   String price;
   String imageUrl;
+  String email;
+  int intPrice;
 
   MenuDetailPage({
     required this.title,
@@ -19,6 +23,8 @@ class MenuDetailPage extends StatefulWidget {
     required this.description,
     required this.price,
     required this.imageUrl,
+    required this.email,
+    required this.intPrice,
   });
 
   @override
@@ -39,6 +45,19 @@ class _MenuDetailPageState extends State<MenuDetailPage> {
         quantity++;
       }
     });
+  }
+
+  addToCart(email, title, quantity, intPrice, imageUrl, context) async {
+    var result = await AuthService()
+        .addToCart(email, title, quantity, intPrice, imageUrl);
+    if (result == null) {
+      print('Unable to retrieve');
+    } else {
+      setState(() {
+        this.quantity = 0;
+      });
+      showMessage('Successfully added to cart!', context);
+    }
   }
 
   signOut() async {
@@ -216,8 +235,14 @@ class _MenuDetailPageState extends State<MenuDetailPage> {
                     SizedBox(
                       height: 15.0,
                     ),
-                    BigButton(
-                      title: 'Add to Cart',
+                    InkWell(
+                      onTap: () {
+                        addToCart(widget.email, widget.title, quantity,
+                            widget.intPrice, widget.imageUrl, context);
+                      },
+                      child: BigButton(
+                        title: 'Add to Cart',
+                      ),
                     ),
                   ],
                 ),

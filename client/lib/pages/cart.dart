@@ -68,196 +68,173 @@ class _CartPageState extends State<CartPage> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    super.dispose();
     controller.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (userCart.length == 0) {
-      return Scaffold(
-        body: SafeArea(
-          child: Container(
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CircularProgressIndicator(
-                    value: controller.value,
-                    semanticsLabel: 'Linear progress indicator',
-                  ),
-                  SizedBox(height: 10.0),
-                  Text(
-                    'Loading...',
-                    style: TextStyle(
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      );
-    } else {
-      return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color.fromRGBO(246, 246, 246, 1),
-          elevation: 0.0,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(Icons.arrow_back),
-          ),
-        ),
+    return Scaffold(
+      appBar: AppBar(
         backgroundColor: Color.fromRGBO(246, 246, 246, 1),
-        body: Container(
-          width: double.infinity,
-          padding: EdgeInsets.only(
-            left: 20.0,
-            right: 20.0,
-            top: 25.0,
+        elevation: 0.0,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back),
+        ),
+      ),
+      backgroundColor: Color.fromRGBO(246, 246, 246, 1),
+      body: Container(
+        width: double.infinity,
+        padding: EdgeInsets.only(
+          left: 20.0,
+          right: 20.0,
+          top: 25.0,
+        ),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(40.0),
+            topRight: Radius.circular(40.0),
           ),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(40.0),
-              topRight: Radius.circular(40.0),
-            ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'My Orders,',
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'My Orders,',
+                      style: TextStyle(
+                        fontSize: 22.0,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 8.0,
+                        bottom: 15.0,
+                      ),
+                      child: Text(
+                        '${userCart.length.toString()} items selected',
                         style: TextStyle(
                           fontSize: 22.0,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          top: 8.0,
-                          bottom: 15.0,
-                        ),
-                        child: Text(
-                          '${userCart.length.toString()} items selected',
-                          style: TextStyle(
-                            fontSize: 22.0,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
+                  ],
+                ),
+                BigIconBox(icon: Icons.delete, color: Colors.black)
+              ],
+            ),
+            Container(
+              height: 285.0,
+              child: userCart.length == 0
+                  ? Center(
+                      child: Text('No items to display...'),
+                    )
+                  : ListView.builder(
+                      itemCount: userCart.length,
+                      itemBuilder: (context, index) {
+                        var data = userCart[index];
+                        return CartBox(
+                          title: data['title'],
+                          quantity: data['quantity'],
+                          price: data['price'] * data['quantity'],
+                          imageUrl: data['imageUrl'],
+                        );
+                      },
+                    ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 10.0,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Subtotal (${userCart.length.toString()} items)',
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color: Color.fromRGBO(151, 151, 151, 1),
+                    ),
                   ),
-                  BigIconBox(icon: Icons.delete, color: Colors.black)
+                  Text(
+                    'Rp ${oCcy.format(totalPrice).toString()}',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 18.0,
+                    ),
+                  ),
                 ],
               ),
-              Container(
-                height: 285.0,
-                child: ListView.builder(
-                  itemCount: userCart.length,
-                  itemBuilder: (context, index) {
-                    var data = userCart[index];
-                    return CartBox(
-                      title: data['title'],
-                      quantity: data['quantity'],
-                      price: data['price'] * data['quantity'],
-                      imageUrl: data['imageUrl'],
-                    );
-                  },
-                ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 10.0,
+                bottom: 20.0,
               ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 10.0,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Subtotal (${userCart.length.toString()} items)',
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        color: Color.fromRGBO(151, 151, 151, 1),
-                      ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Delivery charge',
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color: Color.fromRGBO(151, 151, 151, 1),
                     ),
-                    Text(
-                      'Rp ${oCcy.format(totalPrice).toString()}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 18.0,
-                      ),
+                  ),
+                  Text(
+                    'Free delivery',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 18.0,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 20.0,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Delivery charge',
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        color: Color.fromRGBO(151, 151, 151, 1),
-                      ),
-                    ),
-                    Text(
-                      'Free delivery',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 18.0,
-                      ),
-                    ),
-                  ],
-                ),
+            ),
+            Divider(
+              thickness: 2.0,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 10.0,
+                bottom: 20.0,
               ),
-              Divider(
-                thickness: 2.0,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 20.0,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Total Amount:',
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w700,
-                      ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Total Amount:',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w700,
                     ),
-                    Text(
-                      'Rp ${oCcy.format(totalPrice).toString()}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 18.0,
-                      ),
+                  ),
+                  Text(
+                    'Rp ${oCcy.format(totalPrice).toString()}',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 18.0,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              BigButton(
-                title: 'Checkout',
-              ),
-            ],
-          ),
+            ),
+            BigButton(
+              title: 'Checkout',
+            ),
+          ],
         ),
-      );
-    }
+      ),
+    );
   }
 }
