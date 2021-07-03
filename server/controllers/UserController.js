@@ -41,7 +41,8 @@ class UserController {
 
   static async addToCart(req, res) {
     try {
-      const cart = await User.addToCart(req.body);
+      const email = req.params.email;
+      const cart = await User.addToCart(email, req.body);
       res.json(cart);
     } catch (err) {
       console.log(err);

@@ -11,7 +11,10 @@ class User {
     return getDatabase().collection('users').findOne({ email });
   }
 
-  static addToCart({ email, title, quantity, price, imageUrl }) {
+  static addToCart(email, { title, quantity, price, imageUrl }) {
+    console.log(email, title, quantity, price, imageUrl);
+    quantity = parseInt(quantity);
+    price = parseInt(price);
     return getDatabase().collection('users').update({ email }, {
       $push: {
         cart: {
