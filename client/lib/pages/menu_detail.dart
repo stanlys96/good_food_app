@@ -237,8 +237,12 @@ class _MenuDetailPageState extends State<MenuDetailPage> {
                     ),
                     InkWell(
                       onTap: () {
-                        addToCart(widget.email, widget.title, quantity,
-                            widget.intPrice, widget.imageUrl, context);
+                        if (quantity == 0) {
+                          showError('Please add quantity.', context);
+                        } else {
+                          addToCart(widget.email, widget.title, quantity,
+                              widget.intPrice, widget.imageUrl, context);
+                        }
                       },
                       child: BigButton(
                         title: 'Add to Cart',

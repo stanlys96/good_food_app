@@ -6,11 +6,20 @@ class CartBox extends StatelessWidget {
   int quantity;
   String imageUrl;
   int price;
-  CartBox(
-      {required this.title,
-      required this.quantity,
-      required this.imageUrl,
-      required this.price});
+  String email;
+  Function reduceQuantity;
+  Function increaseQuantity;
+  Function deleteItem;
+  CartBox({
+    required this.title,
+    required this.quantity,
+    required this.imageUrl,
+    required this.price,
+    required this.email,
+    required this.reduceQuantity,
+    required this.increaseQuantity,
+    required this.deleteItem,
+  });
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -55,7 +64,9 @@ class CartBox extends StatelessWidget {
                     Row(
                       children: [
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            increaseQuantity(email, title);
+                          },
                           child: Container(
                             decoration: BoxDecoration(
                               border: Border.all(
@@ -78,7 +89,9 @@ class CartBox extends StatelessWidget {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            reduceQuantity(email, title);
+                          },
                           child: Container(
                             decoration: BoxDecoration(
                               border: Border.all(
@@ -116,7 +129,38 @@ class CartBox extends StatelessWidget {
                 maxWidth: 30.0,
                 maxHeight: 100.0,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Widget cancelButton = ElevatedButton(
+                  child: Text("Cancel"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                );
+                Widget continueButton = ElevatedButton(
+                  child: Text("Yes"),
+                  onPressed: () {
+                    deleteItem(email, title);
+                  },
+                );
+
+                // set up the AlertDialog
+                AlertDialog alert = AlertDialog(
+                  title: Text("Delete Cart"),
+                  content: Text("Are you sure you want to delete this cart?"),
+                  actions: [
+                    cancelButton,
+                    continueButton,
+                  ],
+                );
+
+                // show the dialog
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return alert;
+                  },
+                );
+              },
               icon: Center(
                 child: Icon(
                   Icons.delete,

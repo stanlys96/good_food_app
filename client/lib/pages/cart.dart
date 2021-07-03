@@ -15,31 +15,19 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> with TickerProviderStateMixin {
-  late AnimationController controller;
   int quantity = 0;
   bool isPressed = false;
   List cart = [];
   List userCart = [];
   num totalPrice = 0;
   String userEmail = '';
-  void changeValue(task) {
-    setState(() {
-      if (task == 'minus') {
-        if (quantity == 0) {
-          return;
-        }
-        quantity--;
-      } else if (task == 'plus') {
-        quantity++;
-      }
-    });
-  }
 
   fetchData() async {
     var user = await AuthService().getUserData(widget.userEmail);
     if (user == null) {
       print('Unable to retrieve');
     } else {
+      totalPrice = 0;
       setState(() {
         userCart = user.data['cart'];
         userCart.forEach((data) {
@@ -53,23 +41,48 @@ class _CartPageState extends State<CartPage> with TickerProviderStateMixin {
     totalPrice += quantity * price;
   }
 
+  reduceQuantity(email, title) async {
+    var reduce = await AuthService().reduceItemQuantity(email, title);
+    if (reduce == null) {
+      print('error');
+    } else {
+      fetchData();
+    }
+  }
+
+  increaseQuantity(email, title) async {
+    var increase = await AuthService().increaseItemQuantity(email, title);
+    if (increase == null) {
+      print('error');
+    } else {
+      fetchData();
+    }
+  }
+
+  deleteOneItem(email, title) async {
+    var delete = await AuthService().deleteOneCartItem(email, title);
+    if (delete == null) {
+      print('error');
+    } else {
+      fetchData();
+      Navigator.pop(context);
+    }
+  }
+
+  deleteAllItems() async {
+    var delete = await AuthService().deleteAllCartItems(widget.userEmail);
+    if (delete == null) {
+      print('error');
+    } else {
+      fetchData();
+      Navigator.pop(context);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     fetchData();
-    controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 2),
-    )..addListener(() {
-        setState(() {});
-      });
-    controller.repeat(reverse: true);
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
   }
 
   @override
@@ -130,7 +143,11 @@ class _CartPageState extends State<CartPage> with TickerProviderStateMixin {
                     ),
                   ],
                 ),
-                BigIconBox(icon: Icons.delete, color: Colors.black)
+                BigIconBox(
+                  icon: Icons.delete,
+                  color: Colors.black,
+                  deleteAllItems: deleteAllItems,
+                ),
               ],
             ),
             Container(
@@ -148,6 +165,10 @@ class _CartPageState extends State<CartPage> with TickerProviderStateMixin {
                           quantity: data['quantity'],
                           price: data['price'] * data['quantity'],
                           imageUrl: data['imageUrl'],
+                          email: widget.userEmail,
+                          reduceQuantity: reduceQuantity,
+                          increaseQuantity: increaseQuantity,
+                          deleteItem: deleteOneItem,
                         );
                       },
                     ),
