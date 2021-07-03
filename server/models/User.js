@@ -83,6 +83,13 @@ class User {
       });
     });
   }
+
+  static deleteAllItems(email) {
+    console.log(email);
+    getDatabase().collection('users').findOne({ email }).then((result) => {
+      return getDatabase().collection('users').update({}, { $set: { cart: [] } }, { multi: true });
+    });
+  }
 }
 
 module.exports = User;

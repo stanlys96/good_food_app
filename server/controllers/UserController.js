@@ -79,6 +79,17 @@ class UserController {
     }
   }
 
+  static async deleteAllCartItems(req, res) {
+    try {
+      const email = req.params.email;
+      console.log(email);
+      const item = await User.deleteAllItems(email);
+      res.json(item);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   static async getUser(req, res) {
     try {
       const email = req.params.email;
