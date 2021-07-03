@@ -54,6 +54,9 @@ class User {
     getDatabase().collection('users').findOne({ email }).then((result) => {
       result.cart.forEach((data) => {
         if (data.title == title) {
+          if (data.quantity == 1) {
+            return getDatabase().collection('users').update({ email }, { $pull: { cart: { title: title } } });
+          }
           return getDatabase().collection('users').update({ email, 'cart.title': title }, { $inc: { 'cart.$.quantity': -1 } })
         }
       });
