@@ -12,19 +12,39 @@ class User {
   }
 
   static addToCart(email, { title, quantity, price, imageUrl }) {
-    console.log(email, title, quantity, price, imageUrl);
     quantity = parseInt(quantity);
     price = parseInt(price);
-    return getDatabase().collection('users').update({ email }, {
-      $push: {
-        cart: {
-          title,
-          quantity,
-          price,
-          imageUrl
-        },
+    getDatabase().collection('users').findOne({ email }).then((result => {
+      if (result.cart == undefined) {
+        return getDatabase().collection('users').update({ email: email }, {
+          $push: {
+            cart: {
+              title,
+              quantity,
+              price,
+              imageUrl
+            },
+          }
+        })
+      } else {
+        result.cart.forEach((data) => {
+          if (data.title == title) {
+            return getDatabase().collection('users').update({ email, 'cart.title': title }, { $inc: { "cart.$.quantity": quantity } })
+          } else {
+            return getDatabase().collection('users').update({ email: email }, {
+              $push: {
+                cart: {
+                  title,
+                  quantity,
+                  price,
+                  imageUrl
+                },
+              }
+            })
+          }
+        })
       }
-    })
+    }))
   }
 }
 
