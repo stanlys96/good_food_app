@@ -17,10 +17,6 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   String userEmail = '';
 
-  signOut() async {
-    Navigator.pushNamed(context, '/home');
-  }
-
   getQuerySearch(context, str) async {
     Provider.of<RestaurantsProvider>(context, listen: false)
         .fetchRestaurantResult(str);
@@ -29,19 +25,17 @@ class _MainPageState extends State<MainPage> {
   void changeCardState(BuildContext context, int id) {
     var categoryList = Provider.of<RestaurantsProvider>(context, listen: false)
         .categoriesResult;
-    setState(() {
-      for (int i = 0; i < categoryList!.length; i++) {
-        if (categoryList[i].id == id) {
-          categoryList[i].setIsPressed(true);
-          Provider.of<RestaurantsProvider>(context, listen: false)
-              .category_name = categoryList[i].title.toLowerCase();
-          Provider.of<RestaurantsProvider>(context, listen: false)
-              .fetchRestaurantData();
-        } else {
-          categoryList[i].setIsPressed(false);
-        }
+    for (int i = 0; i < categoryList!.length; i++) {
+      if (categoryList[i].id == id) {
+        categoryList[i].setIsPressed(true);
+        Provider.of<RestaurantsProvider>(context, listen: false).category_name =
+            categoryList[i].title.toLowerCase();
+        Provider.of<RestaurantsProvider>(context, listen: false)
+            .fetchRestaurantData();
+      } else {
+        categoryList[i].setIsPressed(false);
       }
-    });
+    }
   }
 
   @override
@@ -100,7 +94,13 @@ class _MainPageState extends State<MainPage> {
                     child: TextField(
                       onChanged: (val) {
                         setState(() {
-                          getQuerySearch(context, val);
+                          if (val == '') {
+                            Provider.of<RestaurantsProvider>(context,
+                                    listen: false)
+                                .fetchRestaurantData();
+                          } else {
+                            getQuerySearch(context, val);
+                          }
                         });
                       },
                       decoration: InputDecoration(
