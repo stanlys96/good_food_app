@@ -54,6 +54,16 @@ class MenuController {
       console.log(err);
     }
   }
+
+  static async getByCategory(req, res) {
+    try {
+      const category = req.body.category;
+      const query = await Menu.getByCategory(category);
+      res.json(query);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = MenuController;
