@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../pages/menu_detail.dart';
+import '../provider/user_provider.dart';
+import '../services/authService.dart';
 
 class MenuCard extends StatelessWidget {
   String title;
@@ -28,14 +31,18 @@ class MenuCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => MenuDetailPage(
-              title: title,
-              rating: rating,
-              description: description,
-              imageUrl: imageUrl,
-              price: price,
-              email: email,
-              intPrice: intPrice,
+            builder: (context) => ChangeNotifierProvider<UserProvider>(
+              create: (_) =>
+                  UserProvider(apiService: AuthService(), email: email),
+              child: MenuDetailPage(
+                title: title,
+                rating: rating,
+                description: description,
+                imageUrl: imageUrl,
+                price: price,
+                email: email,
+                intPrice: intPrice,
+              ),
             ),
           ),
         );

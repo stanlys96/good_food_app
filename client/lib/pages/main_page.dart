@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import 'dart:core';
 import '../components/category_card.dart';
 import '../components/menu_card.dart';
-import 'dart:core';
-import '../utility/priceFormatter.dart';
 import '../components/app_bar.dart';
+import '../utility/priceFormatter.dart';
 import '../provider/restaurant_provider.dart';
-import 'package:provider/provider.dart';
 
 class MainPage extends StatefulWidget {
   static final routeName = '/main';
@@ -14,7 +14,7 @@ class MainPage extends StatefulWidget {
   _MainPageState createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
+class _MainPageState extends State<MainPage> {
   String userEmail = '';
 
   signOut() async {
@@ -46,10 +46,6 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    var categoryList = Provider.of<RestaurantsProvider>(context, listen: false)
-        .categoriesResult;
-    var menuList =
-        Provider.of<RestaurantsProvider>(context, listen: false).result;
     final rcvdData = ModalRoute.of(context)?.settings.arguments as Map;
     userEmail = rcvdData['email'];
     return Scaffold(

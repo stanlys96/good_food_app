@@ -14,6 +14,9 @@ class BigIconBox extends StatelessWidget {
     return InkWell(
       onTap: () {
         Widget cancelButton = ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            primary: Colors.red,
+          ),
           child: Text("Cancel"),
           onPressed: () {
             Navigator.pop(context);
@@ -23,6 +26,7 @@ class BigIconBox extends StatelessWidget {
           child: Text("Yes"),
           onPressed: () {
             deleteAllItems!();
+            Navigator.pop(context);
           },
         );
 

@@ -65,7 +65,7 @@ class CartBox extends StatelessWidget {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            increaseQuantity(email, title);
+                            increaseQuantity(title);
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -90,7 +90,7 @@ class CartBox extends StatelessWidget {
                         ),
                         GestureDetector(
                           onTap: () {
-                            reduceQuantity(email, title);
+                            reduceQuantity(title);
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -131,6 +131,9 @@ class CartBox extends StatelessWidget {
               ),
               onPressed: () {
                 Widget cancelButton = ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.red,
+                  ),
                   child: Text("Cancel"),
                   onPressed: () {
                     Navigator.pop(context);
@@ -139,7 +142,8 @@ class CartBox extends StatelessWidget {
                 Widget continueButton = ElevatedButton(
                   child: Text("Yes"),
                   onPressed: () {
-                    deleteItem(email, title);
+                    deleteItem(title);
+                    Navigator.pop(context);
                   },
                 );
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../services/authService.dart';
 import 'dart:convert';
+import '../services/authService.dart';
 import '../utility/dialog.dart';
 
 class SignInPage extends StatefulWidget {
@@ -14,7 +14,6 @@ class _SignInPageState extends State<SignInPage> {
   bool hidePassword = true;
   String _email = '';
   String _password = '';
-  String _fullName = '';
 
   signIn() async {
     AuthService().login(_email, _password).then((val) {

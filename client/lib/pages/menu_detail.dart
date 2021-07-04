@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import '../components/app_bar.dart';
 import '../components/star_widget.dart';
 import '../components/icon_box.dart';
 import '../components/big_icon_box.dart';
 import '../components/big_button.dart';
 import '../services/authService.dart';
 import '../utility/dialog.dart';
-import '../components/app_bar.dart';
+import '../provider/user_provider.dart';
 
 class MenuDetailPage extends StatefulWidget {
   static final routeName = '/menuDetail';
@@ -49,20 +50,12 @@ class _MenuDetailPageState extends State<MenuDetailPage> {
   }
 
   addToCart(email, title, quantity, intPrice, imageUrl, context) async {
-    var result = await AuthService()
-        .addToCart(email, title, quantity, intPrice, imageUrl);
-    if (result == null) {
-      print('Unable to retrieve');
-    } else {
-      setState(() {
-        this.quantity = 0;
-      });
-      showMessage('Successfully added to cart!', context);
-    }
-  }
-
-  signOut() async {
-    Navigator.pushNamed(context, '/home');
+    Provider.of<UserProvider>(context, listen: false)
+        .addToCart(title, quantity, intPrice, imageUrl);
+    showMessage('Successfully added to cart!', context);
+    setState(() {
+      this.quantity = 0;
+    });
   }
 
   @override

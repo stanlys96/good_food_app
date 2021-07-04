@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/provider/user_provider.dart';
+import 'package:provider/provider.dart';
 import '../components/big_icon_box.dart';
 import '../components/cart_box.dart';
 import '../components/big_button.dart';
 import '../utility/priceFormatter.dart';
-import '../services/authService.dart';
 import 'dart:core';
 
 class CartPage extends StatefulWidget {
@@ -14,79 +15,33 @@ class CartPage extends StatefulWidget {
   _CartPageState createState() => _CartPageState();
 }
 
-class _CartPageState extends State<CartPage> with TickerProviderStateMixin {
+class _CartPageState extends State<CartPage> {
   int quantity = 0;
   bool isPressed = false;
-  List cart = [];
-  List userCart = [];
-  num totalPrice = 0;
   String userEmail = '';
 
-  fetchData() async {
-    var user = await AuthService().getUserData(widget.userEmail);
-    if (user == null) {
-      print('Unable to retrieve');
-    } else {
-      totalPrice = 0;
-      setState(() {
-        userCart = user.data['cart'];
-        userCart.forEach((data) {
-          totalPrice += data['price'] * data['quantity'];
-        });
-      });
-    }
-  }
+  // reduceQuantity(email, title) async {
+  //   var reduce = await AuthService().reduceItemQuantity(email, title);
+  //   if (reduce == null) {
+  //     print('error');
+  //   } else {
+  //     fetchData();
+  //   }
+  // }
 
-  void calculateTotalPrice(quantity, price) {
-    totalPrice += quantity * price;
-  }
-
-  reduceQuantity(email, title) async {
-    var reduce = await AuthService().reduceItemQuantity(email, title);
-    if (reduce == null) {
-      print('error');
-    } else {
-      fetchData();
-    }
-  }
-
-  increaseQuantity(email, title) async {
-    var increase = await AuthService().increaseItemQuantity(email, title);
-    if (increase == null) {
-      print('error');
-    } else {
-      fetchData();
-    }
-  }
-
-  deleteOneItem(email, title) async {
-    var delete = await AuthService().deleteOneCartItem(email, title);
-    if (delete == null) {
-      print('error');
-    } else {
-      fetchData();
-      Navigator.pop(context);
-    }
-  }
-
-  deleteAllItems() async {
-    var delete = await AuthService().deleteAllCartItems(widget.userEmail);
-    if (delete == null) {
-      print('error');
-    } else {
-      fetchData();
-      Navigator.pop(context);
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    fetchData();
-  }
+  // increaseQuantity(email, title) async {
+  //   var increase = await AuthService().increaseItemQuantity(email, title);
+  //   if (increase == null) {
+  //     print('error');
+  //   } else {
+  //     fetchData();
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
+    var cartLength = Provider.of<UserProvider>(context).userCart?.length;
+    var totalPrice = Provider.of<UserProvider>(context).totalPrice;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(246, 246, 246, 1),
@@ -134,7 +89,7 @@ class _CartPageState extends State<CartPage> with TickerProviderStateMixin {
                         bottom: 15.0,
                       ),
                       child: Text(
-                        '${userCart.length.toString()} items selected',
+                        '${cartLength.toString()} items selected',
                         style: TextStyle(
                           fontSize: 22.0,
                           fontWeight: FontWeight.w600,
@@ -146,32 +101,45 @@ class _CartPageState extends State<CartPage> with TickerProviderStateMixin {
                 BigIconBox(
                   icon: Icons.delete,
                   color: Colors.black,
-                  deleteAllItems: deleteAllItems,
+                  deleteAllItems:
+                      Provider.of<UserProvider>(context).deleteAllCarts,
                 ),
               ],
             ),
             Container(
               height: 285.0,
-              child: userCart.length == 0
-                  ? Center(
-                      child: Text('No items to display...'),
-                    )
-                  : ListView.builder(
-                      itemCount: userCart.length,
-                      itemBuilder: (context, index) {
-                        var data = userCart[index];
-                        return CartBox(
-                          title: data['title'],
-                          quantity: data['quantity'],
-                          price: data['price'] * data['quantity'],
-                          imageUrl: data['imageUrl'],
-                          email: widget.userEmail,
-                          reduceQuantity: reduceQuantity,
-                          increaseQuantity: increaseQuantity,
-                          deleteItem: deleteOneItem,
-                        );
-                      },
-                    ),
+              child: Consumer<UserProvider>(builder: (context, state, _) {
+                if (state.state == ResultState.Loading) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (state.state == ResultState.HasData) {
+                  print(state.userCart);
+                  return ListView.builder(
+                    itemCount: state.userCart?.length,
+                    itemBuilder: (context, index) {
+                      var data = state.userCart?[index];
+                      return CartBox(
+                        title: data['title'],
+                        quantity: data['quantity'],
+                        price: data['price'] * data['quantity'],
+                        imageUrl: data['imageUrl'],
+                        email: widget.userEmail,
+                        reduceQuantity: Provider.of<UserProvider>(context)
+                            .reduceCartQuantity,
+                        increaseQuantity:
+                            Provider.of<UserProvider>(context).addCartQuantity,
+                        deleteItem:
+                            Provider.of<UserProvider>(context).deleteOneCart,
+                      );
+                    },
+                  );
+                } else if (state.state == ResultState.NoData) {
+                  return Center(child: Text(state.message));
+                } else if (state.state == ResultState.Error) {
+                  return Center(child: Text(state.message));
+                } else {
+                  return Center(child: Text(''));
+                }
+              }),
             ),
             Padding(
               padding: const EdgeInsets.only(
@@ -181,7 +149,7 @@ class _CartPageState extends State<CartPage> with TickerProviderStateMixin {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Subtotal (${userCart.length.toString()} items)',
+                    'Subtotal (${cartLength.toString()} items)',
                     style: TextStyle(
                       fontSize: 14.0,
                       color: Color.fromRGBO(151, 151, 151, 1),

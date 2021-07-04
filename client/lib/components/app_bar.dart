@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import '../pages/cart.dart';
+import '../provider/user_provider.dart';
+import '../services/authService.dart';
 
 AppBar header(BuildContext context, String userEmail, iconButton) {
   signOut() async {
@@ -16,8 +19,12 @@ AppBar header(BuildContext context, String userEmail, iconButton) {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => CartPage(
-                userEmail: userEmail,
+              builder: (context) => ChangeNotifierProvider<UserProvider>(
+                create: (_) =>
+                    UserProvider(apiService: AuthService(), email: userEmail),
+                child: CartPage(
+                  userEmail: userEmail,
+                ),
               ),
             ),
           );

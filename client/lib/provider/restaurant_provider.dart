@@ -1,5 +1,5 @@
-import '../services/authService.dart';
 import 'package:flutter/material.dart';
+import '../services/authService.dart';
 import '../class/category.dart';
 
 enum ResultState { Loading, NoData, HasData, Error }
