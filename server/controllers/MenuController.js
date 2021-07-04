@@ -43,6 +43,17 @@ class MenuController {
       console.log(err);
     }
   }
+
+  static async querySearch(req, res) {
+    try {
+      const str = req.body.str;
+      console.log(str);
+      const query = await Menu.querySearch(str);
+      res.json(query);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = MenuController;
