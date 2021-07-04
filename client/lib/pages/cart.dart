@@ -112,26 +112,35 @@ class _CartPageState extends State<CartPage> {
                 if (state.state == ResultState.Loading) {
                   return Center(child: CircularProgressIndicator());
                 } else if (state.state == ResultState.HasData) {
-                  print(state.userCart);
-                  return ListView.builder(
-                    itemCount: state.userCart?.length,
-                    itemBuilder: (context, index) {
-                      var data = state.userCart?[index];
-                      return CartBox(
-                        title: data['title'],
-                        quantity: data['quantity'],
-                        price: data['price'] * data['quantity'],
-                        imageUrl: data['imageUrl'],
-                        email: widget.userEmail,
-                        reduceQuantity: Provider.of<UserProvider>(context)
-                            .reduceCartQuantity,
-                        increaseQuantity:
-                            Provider.of<UserProvider>(context).addCartQuantity,
-                        deleteItem:
-                            Provider.of<UserProvider>(context).deleteOneCart,
-                      );
-                    },
-                  );
+                  return state.userCart?.length == 0
+                      ? Center(
+                          child: Text(
+                            'No items to display...',
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: state.userCart?.length,
+                          itemBuilder: (context, index) {
+                            var data = state.userCart?[index];
+                            return CartBox(
+                              title: data['title'],
+                              quantity: data['quantity'],
+                              price: data['price'] * data['quantity'],
+                              imageUrl: data['imageUrl'],
+                              email: widget.userEmail,
+                              reduceQuantity: Provider.of<UserProvider>(context)
+                                  .reduceCartQuantity,
+                              increaseQuantity:
+                                  Provider.of<UserProvider>(context)
+                                      .addCartQuantity,
+                              deleteItem: Provider.of<UserProvider>(context)
+                                  .deleteOneCart,
+                            );
+                          },
+                        );
                 } else if (state.state == ResultState.NoData) {
                   return Center(child: Text(state.message));
                 } else if (state.state == ResultState.Error) {
