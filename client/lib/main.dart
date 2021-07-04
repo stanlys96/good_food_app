@@ -3,6 +3,9 @@ import './pages/sign_in_page.dart';
 import './pages/home_page.dart';
 import './pages/sign_up_page.dart';
 import './pages/main_page.dart';
+import './provider/restaurant_provider.dart';
+import './services/authService.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,7 +25,11 @@ class MyApp extends StatelessWidget {
         HomePage.routeName: (context) => HomePage(),
         SignInPage.routeName: (context) => SignInPage(),
         SignUpPage.routeName: (context) => SignUpPage(),
-        MainPage.routeName: (context) => MainPage(),
+        MainPage.routeName: (context) =>
+            ChangeNotifierProvider<RestaurantsProvider>(
+              create: (_) => RestaurantsProvider(apiService: AuthService()),
+              child: MainPage(),
+            ),
       },
     );
   }

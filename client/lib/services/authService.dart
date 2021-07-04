@@ -27,42 +27,6 @@ class AuthService {
     }
   }
 
-  getBurgers() async {
-    try {
-      return await dio.get('https://good-food-app.herokuapp.com/menu/burgers',
-          options: Options(contentType: Headers.formUrlEncodedContentType));
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  getNoodles() async {
-    try {
-      return await dio.get('https://good-food-app.herokuapp.com/menu/noodles',
-          options: Options(contentType: Headers.formUrlEncodedContentType));
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  getDrinks() async {
-    try {
-      return await dio.get('https://good-food-app.herokuapp.com/menu/drinks',
-          options: Options(contentType: Headers.formUrlEncodedContentType));
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  getSnacks() async {
-    try {
-      return await dio.get('https://good-food-app.herokuapp.com/menu/snacks',
-          options: Options(contentType: Headers.formUrlEncodedContentType));
-    } catch (e) {
-      print(e);
-    }
-  }
-
   getAll() async {
     try {
       return await dio.get('https://good-food-app.herokuapp.com/menu/all',
@@ -78,15 +42,6 @@ class AuthService {
           data: {
             "category": category,
           },
-          options: Options(contentType: Headers.formUrlEncodedContentType));
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  getMenu(category) async {
-    try {
-      return await dio.get('https://good-food-app.herokuapp.com/menu/$category',
           options: Options(contentType: Headers.formUrlEncodedContentType));
     } catch (e) {
       print(e);

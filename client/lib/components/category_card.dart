@@ -17,7 +17,7 @@ class CategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        changeState(id);
+        changeState(context, id);
       },
       child: Padding(
         padding: const EdgeInsets.only(right: 10.0),
