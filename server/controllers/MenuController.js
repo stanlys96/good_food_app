@@ -47,8 +47,8 @@ class MenuController {
   static async querySearch(req, res) {
     try {
       const str = req.body.str;
-      console.log(str);
-      const query = await Menu.querySearch(str);
+      const category = req.body.category;
+      const query = await Menu.querySearch(category, str);
       res.json(query);
     } catch (err) {
       console.log(err);
