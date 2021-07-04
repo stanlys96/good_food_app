@@ -8,6 +8,7 @@ import '../services/authService.dart';
 import 'dart:core';
 import '../utility/priceFormatter.dart';
 import './cart.dart';
+import '../components/app_bar.dart';
 
 class MainPage extends StatefulWidget {
   static final routeName = '/main';
@@ -24,23 +25,16 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   List menuList = [];
   List allData = [];
 
-  MenuList menu = MenuList();
-
   signOut() async {
     Navigator.pushNamed(context, '/home');
   }
 
   fetchData() async {
-    var result = await AuthService().getAll();
+    var result = await AuthService().getByCategory(category);
     if (result == null) {
       print('Unable to retrieve');
     } else {
-      allData = result.data;
-      allData.forEach((data) {
-        if (data[category] != null) {
-          menuList = data[category];
-        }
-      });
+      menuList = result.data;
     }
   }
 
@@ -63,22 +57,27 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     }
   }
 
+  getQuerySearch(str) async {
+    var result = await AuthService().querySearch(this.category, str);
+    if (result == null) {
+      print('Unable to retrieve');
+    } else {
+      menuList = result.data;
+    }
+  }
+
   void changeCardState(int id) {
     setState(() {
       for (int i = 0; i < categoryList.length; i++) {
         if (categoryList[i].id == id) {
           categoryList[i].setIsPressed(true);
           category = categoryList[i].title.toLowerCase();
+          fetchData();
           _scrollController.animateTo(
             _scrollController.position.minScrollExtent,
             duration: Duration(milliseconds: 500),
             curve: Curves.fastOutSlowIn,
           );
-          allData.forEach((data) {
-            if (data[category] != null) {
-              menuList = data[category];
-            }
-          });
         } else {
           categoryList[i].setIsPressed(false);
         }
@@ -139,46 +138,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     } else {
       return Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          leading: IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.menu),
-          ),
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.favorite,
-              ),
-            ),
-            IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CartPage(
-                      userEmail: userEmail,
-                    ),
-                  ),
-                );
-              },
-              icon: FaIcon(
-                FontAwesomeIcons.shoppingBag,
-              ),
-            ),
-            IconButton(
-              onPressed: () {
-                signOut();
-              },
-              icon: FaIcon(
-                FontAwesomeIcons.signOutAlt,
-              ),
-            ),
-            SizedBox(width: 5.0),
-          ],
-          elevation: 0.0,
-        ),
+        appBar: header(context, userEmail, buttonIcon),
         body: Container(
           padding: EdgeInsets.only(
             left: 30.0,
@@ -206,55 +166,35 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                   ),
                 ),
               ),
-              IntrinsicHeight(
+              Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 12.0,
+                  vertical: 5.0,
+                ),
+                decoration: BoxDecoration(
+                  color: Color.fromRGBO(246, 246, 246, 1),
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
+                    FaIcon(
+                      FontAwesomeIcons.search,
+                      size: 18.0,
+                    ),
+                    SizedBox(width: 15.0),
                     Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 12.0,
-                        vertical: 5.0,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Color.fromRGBO(246, 246, 246, 1),
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          FaIcon(
-                            FontAwesomeIcons.search,
-                            size: 18.0,
-                          ),
-                          SizedBox(width: 15.0),
-                          Container(
-                            width: 225.0,
-                            child: TextField(
-                              onChanged: (val) {},
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                isDense: true,
-                                hintText: 'Search',
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10.0,
-                    ),
-                    Expanded(
-                      child: InkWell(
-                        onTap: () {},
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Color.fromRGBO(253, 219, 50, 1),
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                          child: Center(
-                            child: FaIcon(FontAwesomeIcons.utensils),
-                          ),
+                      width: 290.0,
+                      child: TextField(
+                        onChanged: (val) {
+                          setState(() {
+                            getQuerySearch(val);
+                          });
+                        },
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          isDense: true,
+                          hintText: 'Search',
                         ),
                       ),
                     )
@@ -327,4 +267,11 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       );
     }
   }
+}
+
+IconButton buttonIcon(BuildContext context) {
+  return IconButton(
+    onPressed: () {},
+    icon: Icon(Icons.menu),
+  );
 }

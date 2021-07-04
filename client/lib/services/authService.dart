@@ -72,6 +72,18 @@ class AuthService {
     }
   }
 
+  getByCategory(category) async {
+    try {
+      return await dio.post('https://good-food-app.herokuapp.com/menu/category',
+          data: {
+            "category": category,
+          },
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+    } catch (e) {
+      print(e);
+    }
+  }
+
   getMenu(category) async {
     try {
       return await dio.get('https://good-food-app.herokuapp.com/menu/$category',
@@ -84,6 +96,19 @@ class AuthService {
   getCategories() async {
     try {
       return await dio.get('https://good-food-app.herokuapp.com/category/',
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  querySearch(category, str) async {
+    try {
+      return await dio.post('https://good-food-app.herokuapp.com/menu',
+          data: {
+            "category": category,
+            "str": str,
+          },
           options: Options(contentType: Headers.formUrlEncodedContentType));
     } catch (e) {
       print(e);

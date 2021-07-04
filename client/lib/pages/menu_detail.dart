@@ -6,6 +6,7 @@ import '../components/big_icon_box.dart';
 import '../components/big_button.dart';
 import '../services/authService.dart';
 import '../utility/dialog.dart';
+import '../components/app_bar.dart';
 
 class MenuDetailPage extends StatefulWidget {
   static final routeName = '/menuDetail';
@@ -68,38 +69,7 @@ class _MenuDetailPageState extends State<MenuDetailPage> {
   Widget build(BuildContext context) {
     int theRest = 5 - widget.rating;
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(Icons.arrow_back),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () async {},
-            icon: Icon(
-              Icons.favorite,
-            ),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: FaIcon(
-              FontAwesomeIcons.shoppingBag,
-            ),
-          ),
-          IconButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/home');
-            },
-            icon: FaIcon(
-              FontAwesomeIcons.signOutAlt,
-            ),
-          ),
-          SizedBox(width: 5.0),
-        ],
-      ),
+      appBar: header(context, widget.email, buttonIcon),
       body: SafeArea(
         child: Stack(
           children: [
@@ -257,4 +227,13 @@ class _MenuDetailPageState extends State<MenuDetailPage> {
       ),
     );
   }
+}
+
+IconButton buttonIcon(BuildContext context) {
+  return IconButton(
+    onPressed: () {
+      Navigator.pop(context);
+    },
+    icon: Icon(Icons.arrow_back),
+  );
 }
