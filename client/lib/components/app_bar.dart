@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import '../pages/cart.dart';
 import '../pages/favorites_page.dart';
 import '../provider/user_provider.dart';
-import '../provider/user_favorites.dart';
 import '../services/authService.dart';
 
 AppBar header(BuildContext context, String userEmail, iconButton) {
