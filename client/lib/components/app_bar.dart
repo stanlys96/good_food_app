@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import '../pages/cart.dart';
+import '../pages/favorites_page.dart';
 import '../provider/user_provider.dart';
+import '../provider/user_favorites.dart';
 import '../services/authService.dart';
 
 AppBar header(BuildContext context, String userEmail, iconButton) {
@@ -14,6 +16,21 @@ AppBar header(BuildContext context, String userEmail, iconButton) {
     backgroundColor: Colors.white,
     leading: iconButton(context),
     actions: [
+      IconButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ChangeNotifierProvider<FavoritesProvider>(
+                create: (_) => FavoritesProvider(
+                    apiService: AuthService(), email: userEmail),
+                child: FavoritesPage(),
+              ),
+            ),
+          );
+        },
+        icon: Icon(Icons.favorite),
+      ),
       IconButton(
         onPressed: () {
           Navigator.push(

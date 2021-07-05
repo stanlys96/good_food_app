@@ -79,6 +79,36 @@ class AuthService {
     }
   }
 
+  addToFavorites(email, title, rating, description, price, imageUrl) async {
+    try {
+      return await dio.post(
+          'https://good-food-app.herokuapp.com/user/$email/addToFavorites',
+          data: {
+            "title": title,
+            "rating": rating,
+            "description": description,
+            "price": price,
+            "imageUrl": imageUrl
+          },
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  deleteOneFavorite(email, title) async {
+    try {
+      return await dio.delete(
+          'https://good-food-app.herokuapp.com/user/$email/deleteOneFavorite',
+          data: {
+            "title": title,
+          },
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+    } catch (e) {
+      print(e);
+    }
+  }
+
   addToCart(email, title, quantity, price, imageUrl) async {
     try {
       return await dio.post(

@@ -3,9 +3,8 @@ import 'package:provider/provider.dart';
 import '../components/app_bar.dart';
 import '../components/star_widget.dart';
 import '../components/icon_box.dart';
-import '../components/big_icon_box.dart';
+import '../components/favorite_button.dart';
 import '../components/big_button.dart';
-import '../services/authService.dart';
 import '../utility/dialog.dart';
 import '../provider/user_provider.dart';
 
@@ -36,6 +35,7 @@ class MenuDetailPage extends StatefulWidget {
 class _MenuDetailPageState extends State<MenuDetailPage> {
   int quantity = 0;
   bool isPressed = false;
+  List? userFavorites = [];
   void changeValue(task) {
     setState(() {
       if (task == 'minus') {
@@ -50,12 +50,23 @@ class _MenuDetailPageState extends State<MenuDetailPage> {
   }
 
   addToCart(email, title, quantity, intPrice, imageUrl, context) async {
-    Provider.of<UserProvider>(context, listen: false)
+    await Provider.of<UserProvider>(context, listen: false)
         .addToCart(title, quantity, intPrice, imageUrl);
     showMessage('Successfully added to cart!', context);
     setState(() {
       this.quantity = 0;
     });
+  }
+
+  favoriteOnTap(context) async {
+    var message = await Provider.of<UserProvider>(context, listen: false)
+        .addToFavorites(widget.title, widget.rating, widget.description,
+            widget.intPrice, widget.imageUrl);
+    if (message == 'Success') {
+      showMessage('Successfully added to favorites!', context);
+    } else {
+      showError('This meal is already added to favorites!', context);
+    }
   }
 
   @override
@@ -137,11 +148,24 @@ class _MenuDetailPageState extends State<MenuDetailPage> {
                             ),
                           ],
                         ),
-                        BigIconBox(
-                          icon: !isPressed
-                              ? Icons.favorite_border_outlined
-                              : Icons.favorite,
-                          color: Colors.red,
+                        Consumer<UserProvider>(
+                          builder: (context, state, _) {
+                            if (state.state == ResultState.Loading) {
+                              return Center(child: CircularProgressIndicator());
+                            } else if (state.state == ResultState.HasData) {
+                              return FavoriteButton(
+                                icon: Icons.favorite,
+                                color: Colors.red,
+                                onPressed: favoriteOnTap,
+                              );
+                            } else if (state.state == ResultState.NoData) {
+                              return Center(child: Text(state.message));
+                            } else if (state.state == ResultState.Error) {
+                              return Center(child: Text(state.message));
+                            } else {
+                              return Center(child: Text(''));
+                            }
+                          },
                         ),
                       ],
                     ),

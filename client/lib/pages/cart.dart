@@ -18,26 +18,6 @@ class CartPage extends StatefulWidget {
 class _CartPageState extends State<CartPage> {
   int quantity = 0;
   bool isPressed = false;
-  String userEmail = '';
-
-  // reduceQuantity(email, title) async {
-  //   var reduce = await AuthService().reduceItemQuantity(email, title);
-  //   if (reduce == null) {
-  //     print('error');
-  //   } else {
-  //     fetchData();
-  //   }
-  // }
-
-  // increaseQuantity(email, title) async {
-  //   var increase = await AuthService().increaseItemQuantity(email, title);
-  //   if (increase == null) {
-  //     print('error');
-  //   } else {
-  //     fetchData();
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     var cartLength = Provider.of<UserProvider>(context).userCart?.length;

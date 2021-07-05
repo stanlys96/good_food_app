@@ -9,19 +9,22 @@ class UserProvider extends ChangeNotifier {
 
   UserProvider({required this.apiService, required this.email}) {
     fetchUserCart();
+    fetchUserFavorites();
   }
 
-  // Restaurant Data
+  // User Data
   Map? _userResult;
   String _message = '';
   ResultState? _state;
   List? _userCart;
+  List? _userFavorites;
   num _totalPrice = 0;
 
   String get message => _message;
   Map? get result => _userResult;
   ResultState? get state => _state;
   List? get userCart => _userCart;
+  List? get userFavorites => _userFavorites;
   num get totalPrice => _totalPrice;
 
   Future<dynamic> fetchUserCart() async {
@@ -46,19 +49,74 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
+  Future<dynamic> fetchUserFavorites() async {
+    try {
+      _state = ResultState.Loading;
+      notifyListeners();
+      final result = await apiService.getUserData(this.email);
+      if (result.data.isEmpty) {
+        _state = ResultState.NoData;
+        notifyListeners();
+        return _message = 'Empty Data';
+      } else {
+        _state = ResultState.HasData;
+        notifyListeners();
+        return _userFavorites = result.data['favorites'];
+      }
+    } catch (e) {
+      _state = ResultState.Error;
+      notifyListeners();
+      return _message = 'Error --> $e';
+    }
+  }
+
   Future<dynamic> addToCart(title, quantity, intPrice, imageUrl) async {
     try {
-      apiService.addToCart(this.email, title, quantity, intPrice, imageUrl);
+      await apiService.addToCart(
+          this.email, title, quantity, intPrice, imageUrl);
       _userCart?.add({
         "title": title,
         "quantity": quantity,
         "intPrice": intPrice,
         "imageUrl": imageUrl,
       });
-      _state = ResultState.HasData;
+      // _state = ResultState.HasData;
       calculateTotalPrice(_userCart);
       notifyListeners();
       return _userCart;
+    } catch (e) {
+      print(e);
+      // _state = ResultState.Error;
+      notifyListeners();
+      return _message = 'Error --> $e';
+    }
+  }
+
+  Future<dynamic> addToFavorites(
+      title, rating, description, price, imageUrl) async {
+    try {
+      var found = false;
+      _userFavorites?.forEach((data) {
+        if (data['title'] == title) {
+          found = true;
+        }
+      });
+      if (!found) {
+        apiService.addToFavorites(
+            this.email, title, rating, description, price, imageUrl);
+        _state = ResultState.HasData;
+        _userFavorites?.add({
+          "title": title,
+          "rating": rating,
+          "description": description,
+          "price": price,
+          "imageUrl": imageUrl,
+        });
+        notifyListeners();
+        return 'Success';
+      } else {
+        return 'Duplicate';
+      }
     } catch (e) {
       _state = ResultState.Error;
       notifyListeners();
