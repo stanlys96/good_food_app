@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:core';
 import '../components/category_card.dart';
 import '../components/menu_card.dart';
 import '../components/app_bar.dart';
-import '../utility/priceFormatter.dart';
 import '../provider/restaurant_provider.dart';
 
 class MainPage extends StatefulWidget {
@@ -16,6 +16,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   String userEmail = '';
+  String userFullName = '';
 
   getQuerySearch(context, str) async {
     Provider.of<RestaurantsProvider>(context, listen: false)
@@ -39,9 +40,22 @@ class _MainPageState extends State<MainPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    getUserData();
+  }
+
+  getUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userEmail = prefs.getString('userEmail')!;
+      userFullName = prefs.getString('userFullName')!;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final rcvdData = ModalRoute.of(context)?.settings.arguments as Map;
-    userEmail = rcvdData['email'];
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: header(context, userEmail, buttonIcon),
@@ -54,7 +68,7 @@ class _MainPageState extends State<MainPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Hi, ${rcvdData['fullName']}',
+              'Hi, ${userFullName}',
               style: TextStyle(
                 fontSize: 19.0,
               ),

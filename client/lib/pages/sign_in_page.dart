@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../services/authService.dart';
 import '../utility/dialog.dart';
@@ -21,9 +22,13 @@ class _SignInPageState extends State<SignInPage> {
       if (parsed['message'] == 'Username or password is incorrect!') {
         showError(parsed['message'].toString(), context);
       } else {
-        Navigator.pushNamed(context, '/main', arguments: {
-          "fullName": parsed['full_name'],
-          "email": parsed['email']
+        SharedPreferences.getInstance().then((val) {
+          val.setString('userEmail', parsed['email']);
+          val.setString('userFullName', parsed['full_name']);
+          Navigator.pushNamed(context, '/main', arguments: {
+            "fullName": parsed['full_name'],
+            "email": parsed['email']
+          });
         });
       }
     });

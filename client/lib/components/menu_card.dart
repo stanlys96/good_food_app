@@ -25,6 +25,7 @@ class MenuCard extends StatelessWidget {
     required this.email,
     required this.intPrice,
   });
+
   @override
   Widget build(BuildContext context) {
     return InkWell(

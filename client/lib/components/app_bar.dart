@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../pages/cart.dart';
 import '../pages/favorites_page.dart';
 import '../provider/user_provider.dart';
@@ -8,6 +9,9 @@ import '../services/authService.dart';
 
 AppBar header(BuildContext context, String userEmail, iconButton) {
   signOut() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('userEmail', '');
+    prefs.setString('userFullName', '');
     Navigator.pushNamed(context, '/home');
   }
 
