@@ -50,6 +50,24 @@ class User {
     }))
   }
 
+  static addToFavorites(email, { title, rating, description, price, imageUrl }) {
+    price = parseInt(price);
+    rating = parseInt(rating);
+    getDatabase().collection('users').findOne({ email }).then((result => {
+      return getDatabase().collection('users').update({ email: email }, {
+        $push: {
+          favorites: {
+            title,
+            rating,
+            description,
+            price,
+            imageUrl
+          },
+        }
+      })
+    }))
+  }
+
   static reduceItemQuantity(email, { title }) {
     getDatabase().collection('users').findOne({ email }).then((result) => {
       result.cart.forEach((data) => {

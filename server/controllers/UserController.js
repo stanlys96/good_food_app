@@ -49,6 +49,16 @@ class UserController {
     }
   }
 
+  static async addToFavorites(req, res) {
+    try {
+      const email = req.params.email;
+      const favorite = await User.addToFavorites(email, req.body);
+      res.json(favorite);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   static async reduceQuantity(req, res) {
     try {
       const email = req.params.email;
