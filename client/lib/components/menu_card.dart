@@ -3,11 +3,12 @@ import 'package:provider/provider.dart';
 import '../pages/menu_detail.dart';
 import '../provider/user_provider.dart';
 import '../services/authService.dart';
+import '../utility/priceFormatter.dart';
 
 class MenuCard extends StatelessWidget {
   String title;
   String subTitle;
-  String price;
+  int price;
   String imageUrl;
   String description;
   int rating;
@@ -41,7 +42,6 @@ class MenuCard extends StatelessWidget {
                 imageUrl: imageUrl,
                 price: price,
                 email: email,
-                intPrice: intPrice,
               ),
             ),
           ),
@@ -96,7 +96,7 @@ class MenuCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Rp $price',
+                      'Rp ${oCcy.format(price).toString()}',
                       style: TextStyle(
                         fontWeight: FontWeight.w900,
                       ),

@@ -182,9 +182,7 @@ class _MainPageState extends State<MainPage> {
                         title: state.result?[index]['title'],
                         subTitle: state.result?[index]['subTitle'],
                         imageUrl: state.result?[index]['imageUrl'],
-                        price: oCcy
-                            .format(state.result?[index]['price'])
-                            .toString(),
+                        price: (state.result?[index]['price']),
                         description: state.result?[index]['description'],
                         rating: state.result?[index]['rating'],
                         email: userEmail,

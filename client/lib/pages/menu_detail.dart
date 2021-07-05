@@ -6,6 +6,7 @@ import '../components/icon_box.dart';
 import '../components/favorite_button.dart';
 import '../components/big_button.dart';
 import '../utility/dialog.dart';
+import '../utility/priceFormatter.dart';
 import '../provider/user_provider.dart';
 
 class MenuDetailPage extends StatefulWidget {
@@ -13,10 +14,9 @@ class MenuDetailPage extends StatefulWidget {
   String title;
   int rating;
   String description;
-  String price;
+  int price;
   String imageUrl;
   String email;
-  int intPrice;
 
   MenuDetailPage({
     required this.title,
@@ -25,7 +25,6 @@ class MenuDetailPage extends StatefulWidget {
     required this.price,
     required this.imageUrl,
     required this.email,
-    required this.intPrice,
   });
 
   @override
@@ -61,7 +60,7 @@ class _MenuDetailPageState extends State<MenuDetailPage> {
   favoriteOnTap(context) async {
     var message = await Provider.of<UserProvider>(context, listen: false)
         .addToFavorites(widget.title, widget.rating, widget.description,
-            widget.intPrice, widget.imageUrl);
+            widget.price, widget.imageUrl);
     if (message == 'Success') {
       showMessage('Successfully added to favorites!', context);
     } else {
@@ -211,7 +210,7 @@ class _MenuDetailPageState extends State<MenuDetailPage> {
                           ],
                         ),
                         Text(
-                          'Rp ${widget.price}',
+                          'Rp ${oCcy.format(widget.price).toString()}',
                           style: TextStyle(
                             fontSize: 22.0,
                             fontWeight: FontWeight.w600,
@@ -228,7 +227,7 @@ class _MenuDetailPageState extends State<MenuDetailPage> {
                           showError('Please add quantity.', context);
                         } else {
                           addToCart(widget.email, widget.title, quantity,
-                              widget.intPrice, widget.imageUrl, context);
+                              widget.price, widget.imageUrl, context);
                         }
                       },
                       child: BigButton(

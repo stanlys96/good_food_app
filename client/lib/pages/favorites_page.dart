@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import '../components/favorite_card.dart';
 import 'package:provider/provider.dart';
-import '../provider/user_favorites.dart';
+import '../provider/user_provider.dart';
 
 class FavoritesPage extends StatelessWidget {
+  String email;
+  FavoritesPage({required this.email});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,19 +49,19 @@ class FavoritesPage extends StatelessWidget {
                   bottom: 15.0,
                 ),
                 child: Text(
-                  'Total: ${Provider.of<FavoritesProvider>(context).favoritesLength} items',
+                  'Total: ${Provider.of<UserProvider>(context).favoritesLength} items',
                   style: TextStyle(
                     fontSize: 22.0,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
-              Consumer<FavoritesProvider>(
+              Consumer<UserProvider>(
                 builder: (context, state, _) {
                   if (state.state == ResultState.Loading) {
                     return Center(child: CircularProgressIndicator());
                   } else if (state.state == ResultState.HasData) {
-                    return state.userFavorites?.length == 0
+                    return state.nestedUserFavorites?.length == 0
                         ? Center(
                             child: Text(
                               'No items to display...',
@@ -71,9 +73,10 @@ class FavoritesPage extends StatelessWidget {
                         : Container(
                             height: 470.0,
                             child: ListView.builder(
-                              itemCount: state.userFavorites?.length,
+                              itemCount: state.nestedUserFavorites?.length,
                               itemBuilder: (context, index) {
-                                var favorites = state.userFavorites?[index];
+                                var favorites =
+                                    state.nestedUserFavorites?[index];
                                 return IntrinsicHeight(
                                   child: Padding(
                                     padding:
@@ -88,10 +91,11 @@ class FavoritesPage extends StatelessWidget {
                                           price: data['price'],
                                           imageUrl: data['imageUrl'],
                                           rating: data['rating'],
+                                          description: data['description'],
                                           onPressed:
-                                              Provider.of<FavoritesProvider>(
-                                                      context)
+                                              Provider.of<UserProvider>(context)
                                                   .deleteOneFavorite,
+                                          email: email,
                                         );
                                       }).toList(),
                                     ),

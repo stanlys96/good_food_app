@@ -3,6 +3,20 @@ import '../services/authService.dart';
 
 enum ResultState { Loading, NoData, HasData, Error }
 
+List makeNestedList(List list) {
+  List output = [];
+  List temp = [];
+  for (int i = 0; i < list.length; i++) {
+    if (i % 2 == 0 && i != 0) {
+      output.add(temp);
+      temp = [];
+    }
+    temp.add(list[i]);
+  }
+  output.add(temp);
+  return output;
+}
+
 class UserProvider extends ChangeNotifier {
   final AuthService apiService;
   String email;
@@ -19,13 +33,17 @@ class UserProvider extends ChangeNotifier {
   List? _userCart;
   List? _userFavorites;
   num _totalPrice = 0;
+  List? _nestedUserFavorites;
+  int _favoritesLength = 0;
 
   String get message => _message;
   Map? get result => _userResult;
   ResultState? get state => _state;
   List? get userCart => _userCart;
   List? get userFavorites => _userFavorites;
+  List? get nestedUserFavorites => _nestedUserFavorites;
   num get totalPrice => _totalPrice;
+  int get favoritesLength => _favoritesLength;
 
   Future<dynamic> fetchUserCart() async {
     try {
@@ -60,9 +78,32 @@ class UserProvider extends ChangeNotifier {
         return _message = 'Empty Data';
       } else {
         _state = ResultState.HasData;
+        _nestedUserFavorites = makeNestedList(result.data['favorites']);
+        _favoritesLength = 0;
+        _nestedUserFavorites?.forEach((data) {
+          data.forEach((nestedData) => _favoritesLength++);
+        });
         notifyListeners();
         return _userFavorites = result.data['favorites'];
       }
+    } catch (e) {
+      _state = ResultState.Error;
+      notifyListeners();
+      return _message = 'Error --> $e';
+    }
+  }
+
+  Future<dynamic> deleteOneFavorite(title) async {
+    try {
+      await apiService.deleteOneFavorite(this.email, title);
+      _nestedUserFavorites?.forEach((item) {
+        item?.removeWhere((data) => data['title'] == title);
+      });
+      _userFavorites?.removeWhere((data) => data['title'] == title);
+      _state = ResultState.HasData;
+      _favoritesLength--;
+      notifyListeners();
+      return _userFavorites;
     } catch (e) {
       _state = ResultState.Error;
       notifyListeners();

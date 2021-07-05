@@ -21,10 +21,10 @@ AppBar header(BuildContext context, String userEmail, iconButton) {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ChangeNotifierProvider<FavoritesProvider>(
-                create: (_) => FavoritesProvider(
-                    apiService: AuthService(), email: userEmail),
-                child: FavoritesPage(),
+              builder: (context) => ChangeNotifierProvider<UserProvider>(
+                create: (_) =>
+                    UserProvider(apiService: AuthService(), email: userEmail),
+                child: FavoritesPage(email: userEmail),
               ),
             ),
           );
