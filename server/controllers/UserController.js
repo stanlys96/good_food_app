@@ -97,7 +97,8 @@ class UserController {
       res.json({
         full_name: user.full_name,
         email: user.email,
-        cart: user.cart
+        cart: user.cart,
+        favorites: user.favorites
       })
     } catch (err) {
       console.log(err);
