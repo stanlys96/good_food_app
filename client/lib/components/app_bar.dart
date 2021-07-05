@@ -27,7 +27,7 @@ AppBar header(BuildContext context, String userEmail, iconButton) {
               builder: (context) => ChangeNotifierProvider<UserProvider>(
                 create: (_) =>
                     UserProvider(apiService: AuthService(), email: userEmail),
-                child: FavoritesPage(email: userEmail),
+                child: FavoritesPage(),
               ),
             ),
           );

@@ -4,8 +4,6 @@ import 'package:provider/provider.dart';
 import '../provider/user_provider.dart';
 
 class FavoritesPage extends StatelessWidget {
-  String email;
-  FavoritesPage({required this.email});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,7 +93,6 @@ class FavoritesPage extends StatelessWidget {
                                           onPressed:
                                               Provider.of<UserProvider>(context)
                                                   .deleteOneFavorite,
-                                          email: email,
                                         );
                                       }).toList(),
                                     ),

@@ -3,17 +3,18 @@ import './star_widget.dart';
 import '../utility/priceFormatter.dart';
 import '../pages/menu_detail.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../provider/user_provider.dart';
 import '../services/authService.dart';
 
-class FavoriteCard extends StatelessWidget {
+class FavoriteCard extends StatefulWidget {
   String title;
   int price;
   String imageUrl;
   int rating;
   Function onPressed;
   String description;
-  String email;
+
   FavoriteCard({
     required this.title,
     required this.price,
@@ -21,11 +22,31 @@ class FavoriteCard extends StatelessWidget {
     required this.rating,
     required this.onPressed,
     required this.description,
-    required this.email,
   });
+
+  @override
+  _FavoriteCardState createState() => _FavoriteCardState();
+}
+
+class _FavoriteCardState extends State<FavoriteCard> {
+  String email = '';
+
+  getUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      this.email = prefs.getString('userEmail')!;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUserData();
+  }
+
   @override
   Widget build(BuildContext context) {
-    int theRest = 5 - rating;
+    int theRest = 5 - widget.rating;
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -33,13 +54,13 @@ class FavoriteCard extends StatelessWidget {
           MaterialPageRoute(
             builder: (context) => ChangeNotifierProvider<UserProvider>(
               create: (_) =>
-                  UserProvider(apiService: AuthService(), email: email),
+                  UserProvider(apiService: AuthService(), email: this.email),
               child: MenuDetailPage(
-                title: title,
-                rating: rating,
-                description: description,
-                imageUrl: imageUrl,
-                price: price,
+                title: widget.title,
+                rating: widget.rating,
+                description: widget.description,
+                imageUrl: widget.imageUrl,
+                price: widget.price,
                 email: email,
               ),
             ),
@@ -71,7 +92,7 @@ class FavoriteCard extends StatelessWidget {
                       15.0,
                     ),
                     child: Image.asset(
-                      imageUrl,
+                      widget.imageUrl,
                       width: 150.0,
                       height: 100.0,
                     ),
@@ -96,7 +117,7 @@ class FavoriteCard extends StatelessWidget {
                               Widget continueButton = ElevatedButton(
                                 child: Text("Yes"),
                                 onPressed: () {
-                                  onPressed(title);
+                                  widget.onPressed(widget.title);
                                   Navigator.pop(context);
                                 },
                               );
@@ -142,7 +163,7 @@ class FavoriteCard extends StatelessWidget {
                   vertical: 8.0,
                 ),
                 child: Text(
-                  title,
+                  widget.title,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 18.0,
@@ -155,7 +176,7 @@ class FavoriteCard extends StatelessWidget {
                   bottom: 8.0,
                 ),
                 child: Text(
-                  'Rp ${oCcy.format(price).toString()}',
+                  'Rp ${oCcy.format(widget.price).toString()}',
                   style: TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.w500,
@@ -167,7 +188,7 @@ class FavoriteCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      for (int i = 0; i < rating; i++)
+                      for (int i = 0; i < widget.rating; i++)
                         StarWidget(icon: Icons.star)
                     ],
                   ),
