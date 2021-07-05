@@ -68,6 +68,16 @@ class User {
     }))
   }
 
+  static deleteOneFavorite(email, { title }) {
+    getDatabase().collection('users').findOne({ email }).then((result) => {
+      result.favorites.forEach((data) => {
+        if (data.title == title) {
+          return getDatabase().collection('users').update({ email }, { $pull: { favorites: { title: title } } });
+        }
+      });
+    });
+  }
+
   static reduceItemQuantity(email, { title }) {
     getDatabase().collection('users').findOne({ email }).then((result) => {
       result.cart.forEach((data) => {
@@ -95,7 +105,6 @@ class User {
     getDatabase().collection('users').findOne({ email }).then((result) => {
       result.cart.forEach((data) => {
         if (data.title == title) {
-          console.log(title);
           return getDatabase().collection('users').update({ email }, { $pull: { cart: { title: title } } });
         }
       });

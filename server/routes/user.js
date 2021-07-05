@@ -11,5 +11,6 @@ router.post('/:email/reduceQuantity', UserController.reduceQuantity);
 router.post('/:email/increaseQuantity', UserController.increaseQuantity);
 router.delete('/:email', UserController.deleteAllCartItems);
 router.delete('/:email/deleteOneItem', UserController.deleteOneItem);
+router.delete('/:email/deleteOneFavorite', UserController.deleteOneFavorite);
 
 module.exports = router;

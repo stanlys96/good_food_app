@@ -89,6 +89,16 @@ class UserController {
     }
   }
 
+  static async deleteOneFavorite(req, res) {
+    try {
+      const email = req.params.email;
+      const item = await User.deleteOneFavorite(email, req.body);
+      res.json(item);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   static async deleteAllCartItems(req, res) {
     try {
       const email = req.params.email;
