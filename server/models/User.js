@@ -4,6 +4,8 @@ const { hashPassword } = require('../helpers/bcrypt');
 class User {
   static register(user) {
     user.password = hashPassword(user.password);
+    user.favorites = [];
+    user.cart = [];
     return getDatabase().collection('users').insertOne(user);
   }
 
