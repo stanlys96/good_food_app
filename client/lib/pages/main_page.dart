@@ -108,13 +108,7 @@ class _MainPageState extends State<MainPage> {
                     child: TextField(
                       onChanged: (val) {
                         setState(() {
-                          if (val == '') {
-                            Provider.of<RestaurantsProvider>(context,
-                                    listen: false)
-                                .fetchRestaurantData();
-                          } else {
-                            getQuerySearch(context, val);
-                          }
+                          getQuerySearch(context, val);
                         });
                       },
                       decoration: InputDecoration(
