@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/utility/dialog.dart';
 import './star_widget.dart';
 import '../utility/priceFormatter.dart';
 import '../pages/menu_detail.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../provider/user_provider.dart';
-import '../services/authService.dart';
 import '../model/menu.dart';
 
 class FavoriteCard extends StatefulWidget {
@@ -90,41 +88,12 @@ class _FavoriteCardState extends State<FavoriteCard> {
                           padding: const EdgeInsets.only(top: 8.0, right: 12.0),
                           child: InkWell(
                             onTap: () {
-                              Widget cancelButton = ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  primary: Colors.red,
-                                ),
-                                child: Text("Cancel"),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                              );
-                              Widget continueButton = ElevatedButton(
-                                child: Text("Yes"),
-                                onPressed: () {
-                                  widget.onPressed(widget.menu.title);
-                                  Navigator.pop(context);
-                                },
-                              );
-
-                              // set up the AlertDialog
-                              AlertDialog alert = AlertDialog(
-                                title: Text("Delete Favorite"),
-                                content: Text(
-                                    "Are you sure you want to delete this favorite?"),
-                                actions: [
-                                  cancelButton,
-                                  continueButton,
-                                ],
-                              );
-
-                              // show the dialog
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return alert;
-                                },
-                              );
+                              twoButtonsDialog(
+                                  context,
+                                  widget.onPressed,
+                                  widget.menu.title,
+                                  "Delete Favorite",
+                                  "Are you sure you want to delete this item?");
                             },
                             child: Container(
                               decoration: BoxDecoration(

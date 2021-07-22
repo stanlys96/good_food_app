@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../utility/dialog.dart';
 
 class BigIconBox extends StatelessWidget {
   IconData icon;
@@ -13,40 +14,8 @@ class BigIconBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Widget cancelButton = ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            primary: Colors.red,
-          ),
-          child: Text("Cancel"),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        );
-        Widget continueButton = ElevatedButton(
-          child: Text("Yes"),
-          onPressed: () {
-            deleteAllItems!();
-            Navigator.pop(context);
-          },
-        );
-
-        // set up the AlertDialog
-        AlertDialog alert = AlertDialog(
-          title: Text("Delete Cart"),
-          content: Text("Are you sure you want to delete all cart items?"),
-          actions: [
-            cancelButton,
-            continueButton,
-          ],
-        );
-
-        // show the dialog
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return alert;
-          },
-        );
+        twoButtonsDialog(context, deleteAllItems, null, "Delete All Carts",
+            "Are you sure you want to delete all cart items?");
       },
       child: Container(
         height: 50.0,

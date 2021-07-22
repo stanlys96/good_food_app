@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../pages/cart.dart';
 import '../pages/favorites_page.dart';
-import '../provider/user_provider.dart';
-import '../services/authService.dart';
 
-AppBar header(BuildContext context, String userEmail, iconButton) {
+AppBar header(BuildContext context, String email, iconButton) {
   signOut() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('userEmail', '');
@@ -21,26 +18,20 @@ AppBar header(BuildContext context, String userEmail, iconButton) {
     actions: [
       IconButton(
         onPressed: () {
-          Navigator.push(
+          Navigator.pushNamed(
             context,
-            MaterialPageRoute(
-              builder: (context) => FavoritesPage(
-                email: userEmail,
-              ),
-            ),
+            FavoritesPage.routeName,
+            arguments: email,
           );
         },
         icon: Icon(Icons.favorite),
       ),
       IconButton(
         onPressed: () {
-          Navigator.push(
+          Navigator.pushNamed(
             context,
-            MaterialPageRoute(
-              builder: (context) => CartPage(
-                email: userEmail,
-              ),
-            ),
+            CartPage.routeName,
+            arguments: email,
           );
         },
         icon: FaIcon(

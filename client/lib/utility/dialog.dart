@@ -39,3 +39,41 @@ showMessage(String message, BuildContext context) {
     },
   );
 }
+
+twoButtonsDialog(
+    BuildContext context, onPressed, title, dialogTitle, dialogText) {
+  Widget cancelButton = ElevatedButton(
+    style: ElevatedButton.styleFrom(
+      primary: Colors.red,
+    ),
+    child: Text("Cancel"),
+    onPressed: () {
+      Navigator.pop(context);
+    },
+  );
+  Widget continueButton = ElevatedButton(
+    child: Text("Yes"),
+    onPressed: () {
+      title != null ? onPressed(title) : onPressed();
+      Navigator.pop(context);
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text(dialogTitle),
+    content: Text(dialogText),
+    actions: [
+      cancelButton,
+      continueButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}

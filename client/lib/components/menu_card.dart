@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../pages/menu_detail.dart';
-import '../provider/user_provider.dart';
-import '../services/authService.dart';
 import '../utility/priceFormatter.dart';
 import '../model/menu.dart';
-import '../model/arguments.dart';
 
 class MenuCard extends StatelessWidget {
   Menu menu;

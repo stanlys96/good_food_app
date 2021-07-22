@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/utility/dialog.dart';
 import '../utility/priceFormatter.dart';
 
 class CartBox extends StatelessWidget {
@@ -130,40 +131,8 @@ class CartBox extends StatelessWidget {
                 maxHeight: 100.0,
               ),
               onPressed: () {
-                Widget cancelButton = ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.red,
-                  ),
-                  child: Text("Cancel"),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                );
-                Widget continueButton = ElevatedButton(
-                  child: Text("Yes"),
-                  onPressed: () {
-                    deleteItem(title);
-                    Navigator.pop(context);
-                  },
-                );
-
-                // set up the AlertDialog
-                AlertDialog alert = AlertDialog(
-                  title: Text("Delete Cart"),
-                  content: Text("Are you sure you want to delete this cart?"),
-                  actions: [
-                    cancelButton,
-                    continueButton,
-                  ],
-                );
-
-                // show the dialog
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return alert;
-                  },
-                );
+                twoButtonsDialog(context, deleteItem, title, "Delete Cart",
+                    "Are you sure you want to delete this item?");
               },
               icon: Center(
                 child: Icon(
