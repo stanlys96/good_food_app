@@ -52,13 +52,16 @@ class User {
     }))
   }
 
-  static addToFavorites(email, { title, rating, description, price, imageUrl }) {
+  static addToFavorites(email, { id, subTitle, category, title, rating, description, price, imageUrl }) {
     price = parseInt(price);
     rating = parseInt(rating);
     getDatabase().collection('users').findOne({ email }).then((result => {
       return getDatabase().collection('users').update({ email: email }, {
         $push: {
           favorites: {
+            id,
+            subTitle,
+            category,
             title,
             rating,
             description,
