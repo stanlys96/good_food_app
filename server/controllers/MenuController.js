@@ -30,6 +30,17 @@ class MenuController {
       console.log(err);
     }
   }
+
+  static async getById(req, res) {
+    try {
+      const category = req.body.category;
+      const id = req.body.id;
+      const menu = await Menu.getById(category, id);
+      res.json(menu);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = MenuController;

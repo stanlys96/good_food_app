@@ -13,6 +13,10 @@ class Menu {
   static querySearch(category, str) {
     return getDatabase().collection(category).find({ "title": { $regex: `.*${str}.*`, $options: "i" } }).toArray();
   }
+
+  static getById(category, id) {
+    return getDatabase().collection(category).findOne({ _id: ObjectID(id) });
+  }
 }
 
 module.exports = Menu;
