@@ -59,7 +59,7 @@ class User {
       return getDatabase().collection('users').update({ email: email }, {
         $push: {
           favorites: {
-            id,
+            _id: id,
             subTitle,
             category,
             title,
