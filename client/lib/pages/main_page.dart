@@ -104,21 +104,21 @@ class _MainPageState extends State<MainPage> {
                     size: 18.0,
                   ),
                   SizedBox(width: 15.0),
-                  Container(
-                    width: 290.0,
-                    child: TextField(
-                      onChanged: (val) {
-                        setState(() {
+                  Consumer<RestaurantsProvider>(builder: (context, state, _) {
+                    return Container(
+                      width: 290.0,
+                      child: TextField(
+                        onChanged: (val) {
                           getQuerySearch(context, val);
-                        });
-                      },
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        isDense: true,
-                        hintText: 'Search',
+                        },
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          isDense: true,
+                          hintText: 'Search',
+                        ),
                       ),
-                    ),
-                  )
+                    );
+                  })
                 ],
               ),
             ),
