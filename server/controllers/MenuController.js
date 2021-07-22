@@ -33,8 +33,8 @@ class MenuController {
 
   static async getById(req, res) {
     try {
-      const category = req.body.category;
-      const id = req.body.id;
+      const category = req.params.category;
+      const id = req.params.id;
       const menu = await Menu.getById(category, id);
       res.json(menu);
     } catch (err) {
