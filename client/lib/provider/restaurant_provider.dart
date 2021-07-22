@@ -18,7 +18,7 @@ class RestaurantsProvider extends ChangeNotifier {
   }
 
   // Restaurant Data
-  List? _restaurantsResult;
+  List? _restaurantsResult = [];
   String _message = '';
   ResultState? _state;
 
@@ -27,7 +27,7 @@ class RestaurantsProvider extends ChangeNotifier {
   ResultState? get state => _state;
 
   // Categories Data
-  List? _categoriesResult;
+  List? _categoriesResult = [];
   String _categoriesMessage = '';
   ResultState? _categoriesState;
 

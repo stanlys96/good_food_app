@@ -30,18 +30,18 @@ class UserProvider extends ChangeNotifier {
   Map? _userResult;
   String _message = '';
   ResultState? _state;
-  List? _userCart;
-  List? _userFavorites;
+  List _userCart = [];
+  List _userFavorites = [];
   num _totalPrice = 0;
-  List? _nestedUserFavorites;
+  List _nestedUserFavorites = [];
   int _favoritesLength = 0;
 
   String get message => _message;
   Map? get result => _userResult;
   ResultState? get state => _state;
-  List? get userCart => _userCart;
-  List? get userFavorites => _userFavorites;
-  List? get nestedUserFavorites => _nestedUserFavorites;
+  List get userCart => _userCart;
+  List get userFavorites => _userFavorites;
+  List get nestedUserFavorites => _nestedUserFavorites;
   num get totalPrice => _totalPrice;
   int get favoritesLength => _favoritesLength;
 
@@ -80,7 +80,7 @@ class UserProvider extends ChangeNotifier {
         _state = ResultState.HasData;
         _nestedUserFavorites = makeNestedList(result.data['favorites']);
         _favoritesLength = 0;
-        _nestedUserFavorites?.forEach((data) {
+        _nestedUserFavorites.forEach((data) {
           data.forEach((nestedData) => _favoritesLength++);
         });
         notifyListeners();
@@ -96,10 +96,10 @@ class UserProvider extends ChangeNotifier {
   Future<dynamic> deleteOneFavorite(title) async {
     try {
       await apiService.deleteOneFavorite(this.email, title);
-      _nestedUserFavorites?.forEach((item) {
+      _nestedUserFavorites.forEach((item) {
         item?.removeWhere((data) => data['title'] == title);
       });
-      _userFavorites?.removeWhere((data) => data['title'] == title);
+      _userFavorites.removeWhere((data) => data['title'] == title);
       _state = ResultState.HasData;
       _favoritesLength--;
       notifyListeners();
@@ -115,7 +115,7 @@ class UserProvider extends ChangeNotifier {
     try {
       await apiService.addToCart(
           this.email, title, quantity, intPrice, imageUrl);
-      _userCart?.add({
+      _userCart.add({
         "title": title,
         "quantity": quantity,
         "intPrice": intPrice,
@@ -133,20 +133,23 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  Future<dynamic> addToFavorites(
-      title, rating, description, price, imageUrl) async {
+  Future<dynamic> addToFavorites(id, subTitle, category, title, rating,
+      description, price, imageUrl) async {
     try {
       var found = false;
-      _userFavorites?.forEach((data) {
+      _userFavorites.forEach((data) {
         if (data['title'] == title) {
           found = true;
         }
       });
       if (!found) {
-        apiService.addToFavorites(
-            this.email, title, rating, description, price, imageUrl);
+        apiService.addToFavorites(id, subTitle, category, this.email, title,
+            rating, description, price, imageUrl);
         _state = ResultState.HasData;
-        _userFavorites?.add({
+        _userFavorites.add({
+          "id": id,
+          "subTitle": subTitle,
+          "category": category,
           "title": title,
           "rating": rating,
           "description": description,
@@ -168,7 +171,7 @@ class UserProvider extends ChangeNotifier {
   Future<dynamic> deleteOneCart(title) async {
     try {
       await apiService.deleteOneCartItem(this.email, title);
-      _userCart?.removeWhere((item) => item['title'] == title);
+      _userCart.removeWhere((item) => item['title'] == title);
       _state = ResultState.HasData;
       calculateTotalPrice(_userCart);
       notifyListeners();
@@ -198,11 +201,11 @@ class UserProvider extends ChangeNotifier {
   Future<dynamic> reduceCartQuantity(title) async {
     try {
       await apiService.reduceItemQuantity(this.email, title);
-      _userCart?.forEach((cart) async {
+      _userCart.forEach((cart) async {
         if (cart['title'] == title) {
           if (cart['quantity'] == 1) {
             await apiService.deleteOneCartItem(this.email, title);
-            _userCart?.removeWhere((item) => item['title'] == title);
+            _userCart.removeWhere((item) => item['title'] == title);
             calculateTotalPrice(_userCart);
             notifyListeners();
             return;
@@ -223,7 +226,7 @@ class UserProvider extends ChangeNotifier {
   Future<dynamic> addCartQuantity(title) async {
     try {
       await apiService.increaseItemQuantity(this.email, title);
-      _userCart?.forEach((cart) async {
+      _userCart.forEach((cart) async {
         if (cart['title'] == title) {
           cart['quantity']++;
         }

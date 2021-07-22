@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../components/app_bar.dart';
@@ -8,22 +9,18 @@ import '../components/big_button.dart';
 import '../utility/dialog.dart';
 import '../utility/priceFormatter.dart';
 import '../provider/user_provider.dart';
+import '../model/menu.dart';
+import '../widgets/platform_widget.dart';
+import '../widgets/icon_button.dart';
+import '../services/authService.dart';
 
 class MenuDetailPage extends StatefulWidget {
   static final routeName = '/menuDetail';
-  String title;
-  int rating;
-  String description;
-  int price;
-  String imageUrl;
+  Menu menu;
   String email;
 
   MenuDetailPage({
-    required this.title,
-    required this.rating,
-    required this.description,
-    required this.price,
-    required this.imageUrl,
+    required this.menu,
     required this.email,
   });
 
@@ -33,8 +30,6 @@ class MenuDetailPage extends StatefulWidget {
 
 class _MenuDetailPageState extends State<MenuDetailPage> {
   int quantity = 0;
-  bool isPressed = false;
-  List? userFavorites = [];
   void changeValue(task) {
     setState(() {
       if (task == 'minus') {
@@ -59,8 +54,15 @@ class _MenuDetailPageState extends State<MenuDetailPage> {
 
   favoriteOnTap(context) async {
     var message = await Provider.of<UserProvider>(context, listen: false)
-        .addToFavorites(widget.title, widget.rating, widget.description,
-            widget.price, widget.imageUrl);
+        .addToFavorites(
+            widget.menu.id,
+            widget.menu.subTitle,
+            widget.menu.category,
+            widget.menu.title,
+            widget.menu.rating,
+            widget.menu.description,
+            widget.menu.price,
+            widget.menu.imageUrl);
     if (message == 'Success') {
       showMessage('Successfully added to favorites!', context);
     } else {
@@ -68,9 +70,8 @@ class _MenuDetailPageState extends State<MenuDetailPage> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    int theRest = 5 - widget.rating;
+  Widget _buildItem(context) {
+    int theRest = 5 - widget.menu.rating;
     return Scaffold(
       appBar: header(context, widget.email, buttonIcon),
       body: SafeArea(
@@ -86,7 +87,7 @@ class _MenuDetailPageState extends State<MenuDetailPage> {
                 ),
                 image: DecorationImage(
                   fit: BoxFit.fill,
-                  image: AssetImage(widget.imageUrl),
+                  image: AssetImage(widget.menu.imageUrl),
                 ),
               ),
             ),
@@ -117,7 +118,7 @@ class _MenuDetailPageState extends State<MenuDetailPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              widget.title,
+                              widget.menu.title,
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                 fontSize: 25.0,
@@ -132,7 +133,7 @@ class _MenuDetailPageState extends State<MenuDetailPage> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    for (int i = 0; i < widget.rating; i++)
+                                    for (int i = 0; i < widget.menu.rating; i++)
                                       StarWidget(icon: Icons.star)
                                   ],
                                 ),
@@ -174,7 +175,7 @@ class _MenuDetailPageState extends State<MenuDetailPage> {
                         bottom: 15.0,
                       ),
                       child: Text(
-                        widget.description,
+                        widget.menu.description,
                         style: TextStyle(
                           height: 1.4,
                         ),
@@ -210,7 +211,7 @@ class _MenuDetailPageState extends State<MenuDetailPage> {
                           ],
                         ),
                         Text(
-                          'Rp ${oCcy.format(widget.price).toString()}',
+                          'Rp ${oCcy.format(widget.menu.price).toString()}',
                           style: TextStyle(
                             fontSize: 22.0,
                             fontWeight: FontWeight.w600,
@@ -221,18 +222,27 @@ class _MenuDetailPageState extends State<MenuDetailPage> {
                     SizedBox(
                       height: 15.0,
                     ),
-                    InkWell(
-                      onTap: () {
-                        if (quantity == 0) {
-                          showError('Please add quantity.', context);
-                        } else {
-                          addToCart(widget.email, widget.title, quantity,
-                              widget.price, widget.imageUrl, context);
-                        }
+                    Consumer<UserProvider>(
+                      builder: (context, state, _) {
+                        return InkWell(
+                          onTap: () {
+                            if (quantity == 0) {
+                              showError('Please add quantity.', context);
+                            } else {
+                              addToCart(
+                                  widget.email,
+                                  widget.menu.title,
+                                  quantity,
+                                  widget.menu.price,
+                                  widget.menu.imageUrl,
+                                  context);
+                            }
+                          },
+                          child: BigButton(
+                            title: 'Add to Cart',
+                          ),
+                        );
                       },
-                      child: BigButton(
-                        title: 'Add to Cart',
-                      ),
                     ),
                   ],
                 ),
@@ -243,13 +253,30 @@ class _MenuDetailPageState extends State<MenuDetailPage> {
       ),
     );
   }
-}
 
-IconButton buttonIcon(BuildContext context) {
-  return IconButton(
-    onPressed: () {
-      Navigator.pop(context);
-    },
-    icon: Icon(Icons.arrow_back),
-  );
+  Widget _buildAndroid(BuildContext context) {
+    return ChangeNotifierProvider<UserProvider>(
+      create: (_) =>
+          UserProvider(apiService: AuthService(), email: widget.email),
+      child: _buildItem(context),
+    );
+  }
+
+  // Widget _buildIos(BuildContext context) {
+  //   return ChangeNotifierProvider<UserProvider>(
+  //     create: (_) =>
+  //         UserProvider(apiService: AuthService(), email: widget.email),
+  //     child: CupertinoPageScaffold(
+  //       child: _buildItem(context),
+  //     ),
+  //   );
+  // }
+
+  @override
+  Widget build(BuildContext context) {
+    return PlatformWidget(
+      androidBuilder: _buildAndroid,
+      iosBuilder: _buildAndroid,
+    );
+  }
 }

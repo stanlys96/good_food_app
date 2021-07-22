@@ -24,10 +24,8 @@ AppBar header(BuildContext context, String userEmail, iconButton) {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ChangeNotifierProvider<UserProvider>(
-                create: (_) =>
-                    UserProvider(apiService: AuthService(), email: userEmail),
-                child: FavoritesPage(),
+              builder: (context) => FavoritesPage(
+                email: userEmail,
               ),
             ),
           );
@@ -39,12 +37,8 @@ AppBar header(BuildContext context, String userEmail, iconButton) {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ChangeNotifierProvider<UserProvider>(
-                create: (_) =>
-                    UserProvider(apiService: AuthService(), email: userEmail),
-                child: CartPage(
-                  userEmail: userEmail,
-                ),
+              builder: (context) => CartPage(
+                email: userEmail,
               ),
             ),
           );

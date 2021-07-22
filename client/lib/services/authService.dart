@@ -79,11 +79,25 @@ class AuthService {
     }
   }
 
-  addToFavorites(email, title, rating, description, price, imageUrl) async {
+  getMenuById(category, id) async {
+    try {
+      return await dio.get(
+          'https://good-food-app.herokuapp.com/menu/$category/$id',
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  addToFavorites(id, subTitle, category, email, title, rating, description,
+      price, imageUrl) async {
     try {
       return await dio.post(
           'https://good-food-app.herokuapp.com/user/$email/addToFavorites',
           data: {
+            "id": id,
+            "subTitle": subTitle,
+            "category": category,
             "title": title,
             "rating": rating,
             "description": description,

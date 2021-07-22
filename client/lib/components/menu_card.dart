@@ -4,26 +4,16 @@ import '../pages/menu_detail.dart';
 import '../provider/user_provider.dart';
 import '../services/authService.dart';
 import '../utility/priceFormatter.dart';
+import '../model/menu.dart';
+import '../model/arguments.dart';
 
 class MenuCard extends StatelessWidget {
-  String title;
-  String subTitle;
-  int price;
-  String imageUrl;
-  String description;
-  int rating;
+  Menu menu;
   String email;
-  int intPrice;
 
   MenuCard({
-    required this.title,
-    required this.subTitle,
-    required this.price,
-    required this.imageUrl,
-    required this.description,
-    required this.rating,
+    required this.menu,
     required this.email,
-    required this.intPrice,
   });
 
   @override
@@ -33,17 +23,9 @@ class MenuCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ChangeNotifierProvider<UserProvider>(
-              create: (_) =>
-                  UserProvider(apiService: AuthService(), email: email),
-              child: MenuDetailPage(
-                title: title,
-                rating: rating,
-                description: description,
-                imageUrl: imageUrl,
-                price: price,
-                email: email,
-              ),
+            builder: (context) => MenuDetailPage(
+              menu: menu,
+              email: email,
             ),
           ),
         );
@@ -65,9 +47,9 @@ class MenuCard extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(15.0),
                 child: Hero(
-                  tag: imageUrl,
+                  tag: menu.imageUrl,
                   child: Image.asset(
-                    imageUrl,
+                    menu.imageUrl,
                     width: 80.0,
                   ),
                 ),
@@ -80,7 +62,7 @@ class MenuCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      title,
+                      menu.title,
                       style: TextStyle(
                         fontSize: 18.0,
                         fontWeight: FontWeight.w500,
@@ -89,7 +71,7 @@ class MenuCard extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 5.0),
                       child: Text(
-                        subTitle,
+                        menu.subTitle,
                         style: TextStyle(
                           color: Color.fromRGBO(193, 193, 193, 1),
                           fontWeight: FontWeight.w700,
@@ -97,7 +79,7 @@ class MenuCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Rp ${oCcy.format(price).toString()}',
+                      'Rp ${oCcy.format(menu.price).toString()}',
                       style: TextStyle(
                         fontWeight: FontWeight.w900,
                       ),

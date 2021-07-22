@@ -6,22 +6,15 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../provider/user_provider.dart';
 import '../services/authService.dart';
+import '../model/menu.dart';
 
 class FavoriteCard extends StatefulWidget {
-  String title;
-  int price;
-  String imageUrl;
-  int rating;
+  Menu menu;
   Function onPressed;
-  String description;
 
   FavoriteCard({
-    required this.title,
-    required this.price,
-    required this.imageUrl,
-    required this.rating,
+    required this.menu,
     required this.onPressed,
-    required this.description,
   });
 
   @override
@@ -46,23 +39,15 @@ class _FavoriteCardState extends State<FavoriteCard> {
 
   @override
   Widget build(BuildContext context) {
-    int theRest = 5 - widget.rating;
+    int theRest = 5 - widget.menu.rating;
     return InkWell(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ChangeNotifierProvider<UserProvider>(
-              create: (_) =>
-                  UserProvider(apiService: AuthService(), email: this.email),
-              child: MenuDetailPage(
-                title: widget.title,
-                rating: widget.rating,
-                description: widget.description,
-                imageUrl: widget.imageUrl,
-                price: widget.price,
-                email: email,
-              ),
+            builder: (context) => MenuDetailPage(
+              menu: widget.menu,
+              email: email,
             ),
           ),
         );
@@ -92,7 +77,7 @@ class _FavoriteCardState extends State<FavoriteCard> {
                       15.0,
                     ),
                     child: Image.asset(
-                      widget.imageUrl,
+                      widget.menu.imageUrl,
                       width: 150.0,
                       height: 100.0,
                     ),
@@ -117,7 +102,7 @@ class _FavoriteCardState extends State<FavoriteCard> {
                               Widget continueButton = ElevatedButton(
                                 child: Text("Yes"),
                                 onPressed: () {
-                                  widget.onPressed(widget.title);
+                                  widget.onPressed(widget.menu.title);
                                   Navigator.pop(context);
                                 },
                               );
@@ -163,7 +148,7 @@ class _FavoriteCardState extends State<FavoriteCard> {
                   vertical: 8.0,
                 ),
                 child: Text(
-                  widget.title,
+                  widget.menu.title,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 18.0,
@@ -176,7 +161,7 @@ class _FavoriteCardState extends State<FavoriteCard> {
                   bottom: 8.0,
                 ),
                 child: Text(
-                  'Rp ${oCcy.format(widget.price).toString()}',
+                  'Rp ${oCcy.format(widget.menu.price).toString()}',
                   style: TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.w500,
@@ -188,7 +173,7 @@ class _FavoriteCardState extends State<FavoriteCard> {
                 children: [
                   Row(
                     children: [
-                      for (int i = 0; i < widget.rating; i++)
+                      for (int i = 0; i < widget.menu.rating; i++)
                         StarWidget(icon: Icons.star)
                     ],
                   ),

@@ -7,6 +7,9 @@ import '../components/category_card.dart';
 import '../components/menu_card.dart';
 import '../components/app_bar.dart';
 import '../provider/restaurant_provider.dart';
+import '../model/menu.dart';
+import '../services/authService.dart';
+import '../widgets/platform_widget.dart';
 
 class MainPage extends StatefulWidget {
   static final routeName = '/main';
@@ -53,9 +56,7 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final rcvdData = ModalRoute.of(context)?.settings.arguments as Map;
+  Widget _buildItem(context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: header(context, userEmail, buttonIcon),
@@ -186,15 +187,10 @@ class _MainPageState extends State<MainPage> {
                   return ListView.builder(
                     itemCount: state.result?.length,
                     itemBuilder: (context, index) {
+                      Menu menu = Menu.fromJson(state.result?[index]);
                       return MenuCard(
-                        title: state.result?[index]['title'],
-                        subTitle: state.result?[index]['subTitle'],
-                        imageUrl: state.result?[index]['imageUrl'],
-                        price: (state.result?[index]['price']),
-                        description: state.result?[index]['description'],
-                        rating: state.result?[index]['rating'],
+                        menu: menu,
                         email: userEmail,
-                        intPrice: state.result?[index]['price'],
                       );
                     },
                   );
@@ -210,6 +206,21 @@ class _MainPageState extends State<MainPage> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildAndroid(BuildContext context) {
+    return ChangeNotifierProvider<RestaurantsProvider>(
+      create: (_) => RestaurantsProvider(apiService: AuthService()),
+      child: _buildItem(context),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return PlatformWidget(
+      androidBuilder: _buildAndroid,
+      iosBuilder: _buildAndroid,
     );
   }
 }
