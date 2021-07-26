@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../components/favorite_card.dart';
-import '../provider/user_provider.dart';
+import '../provider/favorites_provider.dart';
 import '../model/menu.dart';
 import '../services/authService.dart';
 import '../widgets/platform_widget.dart';
+import '../utility/provider_state.dart';
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class FavoritesPage extends StatelessWidget {
   static String routeName = 'favorites_page';
@@ -55,14 +58,14 @@ class FavoritesPage extends StatelessWidget {
                     bottom: 15.0,
                   ),
                   child: Text(
-                    'Total: ${Provider.of<UserProvider>(newContext).favoritesLength} items',
+                    'Total: ${Provider.of<FavoritesProvider>(newContext).favoritesLength} items',
                     style: TextStyle(
                       fontSize: 22.0,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
-                Consumer<UserProvider>(
+                Consumer<FavoritesProvider>(
                   builder: (context, state, _) {
                     if (state.state == ResultState.Loading) {
                       return Center(child: CircularProgressIndicator());
@@ -96,7 +99,7 @@ class FavoritesPage extends StatelessWidget {
                                           return FavoriteCard(
                                             menu: menu,
                                             onPressed:
-                                                Provider.of<UserProvider>(
+                                                Provider.of<FavoritesProvider>(
                                                         context)
                                                     .deleteOneFavorite,
                                           );
@@ -125,8 +128,8 @@ class FavoritesPage extends StatelessWidget {
   }
 
   Widget _buildAndroid(BuildContext context) {
-    return ChangeNotifierProvider<UserProvider>(
-      create: (_) => UserProvider(apiService: AuthService(), email: email),
+    return ChangeNotifierProvider<FavoritesProvider>(
+      create: (_) => FavoritesProvider(apiService: AuthService(), email: email),
       child: _buildItem(),
     );
   }

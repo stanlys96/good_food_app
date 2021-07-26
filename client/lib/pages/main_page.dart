@@ -10,6 +10,7 @@ import '../provider/restaurant_provider.dart';
 import '../model/menu.dart';
 import '../services/authService.dart';
 import '../widgets/platform_widget.dart';
+import '../utility/provider_state.dart';
 
 class MainPage extends StatefulWidget {
   static final routeName = '/main';
@@ -29,7 +30,7 @@ class _MainPageState extends State<MainPage> {
   void changeCardState(BuildContext context, int id) {
     var categoryList = Provider.of<RestaurantsProvider>(context, listen: false)
         .categoriesResult;
-    for (int i = 0; i < categoryList!.length; i++) {
+    for (int i = 0; i < categoryList.length; i++) {
       if (categoryList[i].id == id) {
         categoryList[i].setIsPressed(true);
         Provider.of<RestaurantsProvider>(context, listen: false).category_name =
@@ -144,13 +145,13 @@ class _MainPageState extends State<MainPage> {
                   } else if (state.categoriesState == ResultState.HasData) {
                     return ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: state.categoriesResult?.length,
+                      itemCount: state.categoriesResult.length,
                       itemBuilder: (context, index) {
                         return CategoryCard(
-                          title: state.categoriesResult?[index].title,
-                          isPressed: state.categoriesResult?[index].isPressed,
-                          id: state.categoriesResult?[index].id,
-                          icon: state.categoriesResult?[index].icon,
+                          title: state.categoriesResult[index].title,
+                          isPressed: state.categoriesResult[index].isPressed,
+                          id: state.categoriesResult[index].id,
+                          icon: state.categoriesResult[index].icon,
                           changeState: changeCardState,
                         );
                       },
@@ -185,9 +186,9 @@ class _MainPageState extends State<MainPage> {
                   return Center(child: CircularProgressIndicator());
                 } else if (state.state == ResultState.HasData) {
                   return ListView.builder(
-                    itemCount: state.result?.length,
+                    itemCount: state.result.length,
                     itemBuilder: (context, index) {
-                      Menu menu = Menu.fromJson(state.result?[index]);
+                      Menu menu = Menu.fromJson(state.result[index]);
                       return MenuCard(
                         menu: menu,
                         email: userEmail,

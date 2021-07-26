@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/authService.dart';
+import '../utility/provider_state.dart';
 import '../model/category.dart';
-
-enum ResultState { Loading, NoData, HasData, Error }
 
 class RestaurantsProvider extends ChangeNotifier {
   final AuthService apiService;
@@ -18,21 +17,21 @@ class RestaurantsProvider extends ChangeNotifier {
   }
 
   // Restaurant Data
-  List? _restaurantsResult = [];
+  List _restaurantsResult = [];
   String _message = '';
   ResultState? _state;
 
   String get message => _message;
-  List? get result => _restaurantsResult;
+  List get result => _restaurantsResult;
   ResultState? get state => _state;
 
   // Categories Data
-  List? _categoriesResult = [];
+  List _categoriesResult = [];
   String _categoriesMessage = '';
   ResultState? _categoriesState;
 
   String get categoriesMessage => _categoriesMessage;
-  List? get categoriesResult => _categoriesResult;
+  List get categoriesResult => _categoriesResult;
   ResultState? get categoriesState => _categoriesState;
 
   Future<dynamic> fetchRestaurantData() async {

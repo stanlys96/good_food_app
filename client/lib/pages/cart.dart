@@ -1,5 +1,6 @@
+import 'dart:core';
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/provider/user_provider.dart';
+import 'package:food_delivery_app/provider/cart_provider.dart';
 import 'package:provider/provider.dart';
 import '../components/big_icon_box.dart';
 import '../components/cart_box.dart';
@@ -7,7 +8,7 @@ import '../components/big_button.dart';
 import '../widgets/platform_widget.dart';
 import '../utility/priceFormatter.dart';
 import '../services/authService.dart';
-import 'dart:core';
+import '../utility/provider_state.dart';
 
 class CartPage extends StatefulWidget {
   String email;
@@ -21,8 +22,8 @@ class _CartPageState extends State<CartPage> {
   Widget _buildItem() {
     return Builder(
       builder: (BuildContext newContext) {
-        var cartLength = Provider.of<UserProvider>(newContext).userCart.length;
-        var totalPrice = Provider.of<UserProvider>(newContext).totalPrice;
+        var cartLength = Provider.of<CartProvider>(newContext).userCart.length;
+        var totalPrice = Provider.of<CartProvider>(newContext).totalPrice;
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Color.fromRGBO(246, 246, 246, 1),
@@ -83,13 +84,13 @@ class _CartPageState extends State<CartPage> {
                       icon: Icons.delete,
                       color: Colors.black,
                       deleteAllItems:
-                          Provider.of<UserProvider>(newContext).deleteAllCarts,
+                          Provider.of<CartProvider>(newContext).deleteAllCarts,
                     ),
                   ],
                 ),
                 Container(
                   height: 285.0,
-                  child: Consumer<UserProvider>(builder: (context, state, _) {
+                  child: Consumer<CartProvider>(builder: (context, state, _) {
                     if (state.state == ResultState.Loading) {
                       return Center(child: CircularProgressIndicator());
                     } else if (state.state == ResultState.HasData) {
@@ -113,12 +114,12 @@ class _CartPageState extends State<CartPage> {
                                   imageUrl: data['imageUrl'],
                                   email: widget.email,
                                   reduceQuantity:
-                                      Provider.of<UserProvider>(context)
+                                      Provider.of<CartProvider>(context)
                                           .reduceCartQuantity,
                                   increaseQuantity:
-                                      Provider.of<UserProvider>(context)
+                                      Provider.of<CartProvider>(context)
                                           .addCartQuantity,
-                                  deleteItem: Provider.of<UserProvider>(context)
+                                  deleteItem: Provider.of<CartProvider>(context)
                                       .deleteOneCart,
                                 );
                               },
@@ -221,9 +222,9 @@ class _CartPageState extends State<CartPage> {
   }
 
   Widget _buildAndroid(BuildContext context) {
-    return ChangeNotifierProvider<UserProvider>(
+    return ChangeNotifierProvider<CartProvider>(
       create: (_) =>
-          UserProvider(apiService: AuthService(), email: widget.email),
+          CartProvider(apiService: AuthService(), email: widget.email),
       child: _buildItem(),
     );
   }

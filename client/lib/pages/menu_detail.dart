@@ -8,7 +8,9 @@ import '../components/favorite_button.dart';
 import '../components/big_button.dart';
 import '../utility/dialog.dart';
 import '../utility/priceFormatter.dart';
-import '../provider/user_provider.dart';
+import '../utility/provider_state.dart';
+import '../provider/cart_provider.dart';
+import '../provider/favorites_provider.dart';
 import '../model/menu.dart';
 import '../widgets/platform_widget.dart';
 import '../widgets/icon_button.dart';
@@ -44,7 +46,7 @@ class _MenuDetailPageState extends State<MenuDetailPage> {
   }
 
   addToCart(email, title, quantity, intPrice, imageUrl, context) async {
-    await Provider.of<UserProvider>(context, listen: false)
+    await Provider.of<CartProvider>(context, listen: false)
         .addToCart(title, quantity, intPrice, imageUrl);
     showMessage('Successfully added to cart!', context);
     setState(() {
@@ -53,7 +55,7 @@ class _MenuDetailPageState extends State<MenuDetailPage> {
   }
 
   favoriteOnTap(context) async {
-    var message = await Provider.of<UserProvider>(context, listen: false)
+    var message = await Provider.of<FavoritesProvider>(context, listen: false)
         .addToFavorites(
             widget.menu.id,
             widget.menu.subTitle,
@@ -148,7 +150,7 @@ class _MenuDetailPageState extends State<MenuDetailPage> {
                             ),
                           ],
                         ),
-                        Consumer<UserProvider>(
+                        Consumer<FavoritesProvider>(
                           builder: (context, state, _) {
                             if (state.state == ResultState.Loading) {
                               return Center(child: CircularProgressIndicator());
@@ -222,7 +224,7 @@ class _MenuDetailPageState extends State<MenuDetailPage> {
                     SizedBox(
                       height: 15.0,
                     ),
-                    Consumer<UserProvider>(
+                    Consumer<CartProvider>(
                       builder: (context, state, _) {
                         return InkWell(
                           onTap: () {
@@ -255,22 +257,20 @@ class _MenuDetailPageState extends State<MenuDetailPage> {
   }
 
   Widget _buildAndroid(BuildContext context) {
-    return ChangeNotifierProvider<UserProvider>(
-      create: (_) =>
-          UserProvider(apiService: AuthService(), email: widget.email),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<CartProvider>(
+          create: (_) =>
+              CartProvider(apiService: AuthService(), email: widget.email),
+        ),
+        ChangeNotifierProvider<FavoritesProvider>(
+          create: (_) =>
+              FavoritesProvider(apiService: AuthService(), email: widget.email),
+        ),
+      ],
       child: _buildItem(context),
     );
   }
-
-  // Widget _buildIos(BuildContext context) {
-  //   return ChangeNotifierProvider<UserProvider>(
-  //     create: (_) =>
-  //         UserProvider(apiService: AuthService(), email: widget.email),
-  //     child: CupertinoPageScaffold(
-  //       child: _buildItem(context),
-  //     ),
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
