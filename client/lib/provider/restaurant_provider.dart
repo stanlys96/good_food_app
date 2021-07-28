@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../services/authService.dart';
+import '../data/api/apiService.dart';
 import '../utility/provider_state.dart';
 import '../model/category.dart';
 
 class RestaurantsProvider extends ChangeNotifier {
-  final AuthService apiService;
+  final ApiService apiService;
   String category = 'burgers';
 
   RestaurantsProvider({required this.apiService}) {

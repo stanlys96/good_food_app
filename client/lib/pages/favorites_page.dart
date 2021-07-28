@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '../components/favorite_card.dart';
 import '../provider/favorites_provider.dart';
 import '../model/menu.dart';
-import '../services/authService.dart';
+import '../data/api/apiService.dart';
 import '../widgets/platform_widget.dart';
 import '../utility/provider_state.dart';
 import '../common/navigation.dart';
@@ -128,7 +128,7 @@ class FavoritesPage extends StatelessWidget {
 
   Widget _buildAndroid(BuildContext context) {
     return ChangeNotifierProvider<FavoritesProvider>(
-      create: (_) => FavoritesProvider(apiService: AuthService(), email: email),
+      create: (_) => FavoritesProvider(apiService: ApiService(), email: email),
       child: _buildItem(),
     );
   }

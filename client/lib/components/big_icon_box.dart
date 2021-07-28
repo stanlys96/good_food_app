@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../utility/dialog.dart';
+import '../widgets/dialog.dart';
 
 class BigIconBox extends StatelessWidget {
   IconData icon;

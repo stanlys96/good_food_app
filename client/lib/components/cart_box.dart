@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/utility/dialog.dart';
+import 'package:food_delivery_app/widgets/dialog.dart';
 import '../utility/priceFormatter.dart';
 
 class CartBox extends StatelessWidget {

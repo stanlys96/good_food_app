@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../services/authService.dart';
+import '../data/api/apiService.dart';
 
 class SignUpPage extends StatefulWidget {
   static final routeName = '/signUp';
@@ -18,7 +18,7 @@ class _SignUpPageState extends State<SignUpPage> {
   String token = '';
 
   signUp() async {
-    AuthService().register(_fullName, _email, _password).then((val) {
+    ApiService().register(_fullName, _email, _password).then((val) {
       if (val != null) {
         Navigator.pushNamed(context, '/signIn');
       }

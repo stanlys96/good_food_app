@@ -7,7 +7,7 @@ import '../components/cart_box.dart';
 import '../components/big_button.dart';
 import '../widgets/platform_widget.dart';
 import '../utility/priceFormatter.dart';
-import '../services/authService.dart';
+import '../data/api/apiService.dart';
 import '../utility/provider_state.dart';
 
 class CartPage extends StatefulWidget {
@@ -224,7 +224,7 @@ class _CartPageState extends State<CartPage> {
   Widget _buildAndroid(BuildContext context) {
     return ChangeNotifierProvider<CartProvider>(
       create: (_) =>
-          CartProvider(apiService: AuthService(), email: widget.email),
+          CartProvider(apiService: ApiService(), email: widget.email),
       child: _buildItem(),
     );
   }

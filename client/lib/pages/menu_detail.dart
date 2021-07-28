@@ -6,15 +6,14 @@ import '../components/star_widget.dart';
 import '../components/icon_box.dart';
 import '../components/favorite_button.dart';
 import '../components/big_button.dart';
-import '../utility/dialog.dart';
+import '../widgets/dialog.dart';
 import '../utility/priceFormatter.dart';
 import '../utility/provider_state.dart';
 import '../provider/cart_provider.dart';
 import '../provider/favorites_provider.dart';
 import '../model/menu.dart';
 import '../widgets/platform_widget.dart';
-import '../widgets/icon_button.dart';
-import '../services/authService.dart';
+import '../data/api/apiService.dart';
 
 class MenuDetailPage extends StatefulWidget {
   static final routeName = '/menuDetail';
@@ -262,11 +261,11 @@ class _MenuDetailPageState extends State<MenuDetailPage> {
       providers: [
         ChangeNotifierProvider<CartProvider>(
           create: (_) =>
-              CartProvider(apiService: AuthService(), email: widget.email),
+              CartProvider(apiService: ApiService(), email: widget.email),
         ),
         ChangeNotifierProvider<FavoritesProvider>(
           create: (_) =>
-              FavoritesProvider(apiService: AuthService(), email: widget.email),
+              FavoritesProvider(apiService: ApiService(), email: widget.email),
         ),
       ],
       child: _buildItem(context),

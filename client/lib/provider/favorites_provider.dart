@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../services/authService.dart';
+import '../data/api/apiService.dart';
 import '../utility/provider_state.dart';
 import '../utility/nested_list.dart';
 
 class FavoritesProvider extends ChangeNotifier {
-  final AuthService apiService;
+  final ApiService apiService;
   String email;
 
   FavoritesProvider({required this.apiService, required this.email}) {

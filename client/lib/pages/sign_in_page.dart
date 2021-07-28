@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-import '../services/authService.dart';
-import '../utility/dialog.dart';
+import '../data/api/apiService.dart';
+import '../widgets/dialog.dart';
 
 class SignInPage extends StatefulWidget {
   static final routeName = '/signIn';
@@ -17,7 +17,7 @@ class _SignInPageState extends State<SignInPage> {
   String _password = '';
 
   signIn() async {
-    AuthService().login(_email, _password).then((val) {
+    ApiService().login(_email, _password).then((val) {
       final parsed = jsonDecode(val.toString()) as Map;
       if (parsed['message'] == 'Username or password is incorrect!') {
         showError(parsed['message'].toString(), context);

@@ -8,7 +8,7 @@ import '../components/menu_card.dart';
 import '../components/app_bar.dart';
 import '../provider/restaurant_provider.dart';
 import '../model/menu.dart';
-import '../services/authService.dart';
+import '../data/api/apiService.dart';
 import '../widgets/platform_widget.dart';
 import '../utility/provider_state.dart';
 import '../widgets/navigation_drawer.dart';
@@ -71,6 +71,9 @@ class _MainPageState extends State<MainPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(
+              height: 15.0,
+            ),
             Text(
               'Hi, ${userFullName}',
               style: TextStyle(
@@ -215,7 +218,7 @@ class _MainPageState extends State<MainPage> {
 
   Widget _buildAndroid(BuildContext context) {
     return ChangeNotifierProvider<RestaurantsProvider>(
-      create: (_) => RestaurantsProvider(apiService: AuthService()),
+      create: (_) => RestaurantsProvider(apiService: ApiService()),
       child: _buildItem(context),
     );
   }
