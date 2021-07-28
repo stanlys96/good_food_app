@@ -38,7 +38,8 @@ class _SignInPageState extends State<SignInPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(248, 247, 252, 1),
+        // backgroundColor: Color.fromRGBO(248, 247, 252, 1),
+        backgroundColor: Theme.of(context).primaryColor,
         titleSpacing: 10.0,
         automaticallyImplyLeading: false,
         elevation: 0.0,
@@ -57,7 +58,7 @@ class _SignInPageState extends State<SignInPage> {
           ),
         ),
       ),
-      backgroundColor: Color.fromRGBO(248, 247, 252, 1),
+      backgroundColor: Theme.of(context).primaryColor,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -81,7 +82,7 @@ class _SignInPageState extends State<SignInPage> {
                     top: 15.0,
                   ),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
+                    color: Theme.of(context).accentColor,
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey,
@@ -299,7 +300,7 @@ class _SignInPageState extends State<SignInPage> {
                   Text(
                     'Don\'t have an account? ',
                     style: TextStyle(
-                      color: Colors.black,
+                      // color: Theme.of(context).accentColor,
                       fontSize: 16.0,
                       fontWeight: FontWeight.w900,
                     ),

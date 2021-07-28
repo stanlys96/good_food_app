@@ -60,157 +60,166 @@ class _MainPageState extends State<MainPage> {
 
   Widget _buildItem(context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: Theme.of(context).accentColor,
       appBar: header(context, userEmail),
       drawer: NavigationDrawerWidget(),
       body: Container(
-        padding: EdgeInsets.only(
-          left: 30.0,
-          right: 30.0,
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(50.0),
+            topRight: Radius.circular(50.0),
+          ),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 15.0,
-            ),
-            Text(
-              'Hi, ${userFullName}',
-              style: TextStyle(
-                fontSize: 19.0,
+        child: Container(
+          padding: EdgeInsets.only(
+            left: 30.0,
+            right: 30.0,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 15.0,
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 5.0,
-                bottom: 10.0,
-              ),
-              child: Text(
-                'Food Special For You',
+              Text(
+                'Hi, ${userFullName}',
                 style: TextStyle(
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.w500,
+                  fontSize: 19.0,
                 ),
               ),
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: 12.0,
-                vertical: 5.0,
-              ),
-              decoration: BoxDecoration(
-                // color: Color.fromRGBO(246, 246, 246, 1),
-                color: Theme.of(context).accentColor,
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  FaIcon(
-                    FontAwesomeIcons.search,
-                    size: 18.0,
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 5.0,
+                  bottom: 10.0,
+                ),
+                child: Text(
+                  'Food Special For You',
+                  style: TextStyle(
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.w500,
                   ),
-                  SizedBox(width: 15.0),
-                  Consumer<RestaurantsProvider>(builder: (context, state, _) {
-                    return Container(
-                      width: 290.0,
-                      child: TextField(
-                        onChanged: (val) {
-                          getQuerySearch(context, val);
-                        },
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          isDense: true,
-                          hintText: 'Search',
-                        ),
-                      ),
-                    );
-                  })
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 10.0,
-                bottom: 10.0,
-              ),
-              child: Text(
-                'Categories',
-                style: TextStyle(
-                  fontWeight: FontWeight.w800,
-                  fontSize: 18.0,
                 ),
               ),
-            ),
-            Container(
-              height: 80.0,
-              child: Consumer<RestaurantsProvider>(
-                builder: (context, state, _) {
-                  if (state.categoriesState == ResultState.Loading) {
+              Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 12.0,
+                  vertical: 5.0,
+                ),
+                decoration: BoxDecoration(
+                  // color: Color.fromRGBO(246, 246, 246, 1),
+                  color: Theme.of(context).accentColor,
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    FaIcon(
+                      FontAwesomeIcons.search,
+                      size: 18.0,
+                    ),
+                    SizedBox(width: 15.0),
+                    Consumer<RestaurantsProvider>(builder: (context, state, _) {
+                      return Container(
+                        width: 290.0,
+                        child: TextField(
+                          onChanged: (val) {
+                            getQuerySearch(context, val);
+                          },
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            isDense: true,
+                            hintText: 'Search',
+                          ),
+                        ),
+                      );
+                    })
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 10.0,
+                  bottom: 10.0,
+                ),
+                child: Text(
+                  'Categories',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 18.0,
+                  ),
+                ),
+              ),
+              Container(
+                height: 80.0,
+                child: Consumer<RestaurantsProvider>(
+                  builder: (context, state, _) {
+                    if (state.categoriesState == ResultState.Loading) {
+                      return Center(child: CircularProgressIndicator());
+                    } else if (state.categoriesState == ResultState.HasData) {
+                      return ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: state.categoriesResult.length,
+                        itemBuilder: (context, index) {
+                          return CategoryCard(
+                            title: state.categoriesResult[index].title,
+                            isPressed: state.categoriesResult[index].isPressed,
+                            id: state.categoriesResult[index].id,
+                            icon: state.categoriesResult[index].icon,
+                            changeState: changeCardState,
+                          );
+                        },
+                      );
+                    } else if (state.categoriesState == ResultState.NoData) {
+                      return Center(child: Text(state.categoriesMessage));
+                    } else if (state.categoriesState == ResultState.Error) {
+                      return Center(child: Text(state.categoriesMessage));
+                    } else {
+                      return Center(child: Text(''));
+                    }
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 15.0,
+                  bottom: 10.0,
+                ),
+                child: Text(
+                  'Most Popular',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ),
+              Expanded(
+                child:
+                    Consumer<RestaurantsProvider>(builder: (context, state, _) {
+                  if (state.state == ResultState.Loading) {
                     return Center(child: CircularProgressIndicator());
-                  } else if (state.categoriesState == ResultState.HasData) {
+                  } else if (state.state == ResultState.HasData) {
                     return ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: state.categoriesResult.length,
+                      itemCount: state.result.length,
                       itemBuilder: (context, index) {
-                        return CategoryCard(
-                          title: state.categoriesResult[index].title,
-                          isPressed: state.categoriesResult[index].isPressed,
-                          id: state.categoriesResult[index].id,
-                          icon: state.categoriesResult[index].icon,
-                          changeState: changeCardState,
+                        Menu menu = Menu.fromJson(state.result[index]);
+                        return MenuCard(
+                          menu: menu,
+                          email: userEmail,
                         );
                       },
                     );
-                  } else if (state.categoriesState == ResultState.NoData) {
-                    return Center(child: Text(state.categoriesMessage));
-                  } else if (state.categoriesState == ResultState.Error) {
-                    return Center(child: Text(state.categoriesMessage));
+                  } else if (state.state == ResultState.NoData) {
+                    return Center(child: Text(state.message));
+                  } else if (state.state == ResultState.Error) {
+                    return Center(child: Text(state.message));
                   } else {
                     return Center(child: Text(''));
                   }
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 15.0,
-                bottom: 10.0,
-              ),
-              child: Text(
-                'Most Popular',
-                style: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-            ),
-            Expanded(
-              child:
-                  Consumer<RestaurantsProvider>(builder: (context, state, _) {
-                if (state.state == ResultState.Loading) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (state.state == ResultState.HasData) {
-                  return ListView.builder(
-                    itemCount: state.result.length,
-                    itemBuilder: (context, index) {
-                      Menu menu = Menu.fromJson(state.result[index]);
-                      return MenuCard(
-                        menu: menu,
-                        email: userEmail,
-                      );
-                    },
-                  );
-                } else if (state.state == ResultState.NoData) {
-                  return Center(child: Text(state.message));
-                } else if (state.state == ResultState.Error) {
-                  return Center(child: Text(state.message));
-                } else {
-                  return Center(child: Text(''));
-                }
-              }),
-            )
-          ],
+                }),
+              )
+            ],
+          ),
         ),
       ),
     );

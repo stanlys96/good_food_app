@@ -29,7 +29,8 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(248, 247, 252, 1),
+        // backgroundColor: Color.fromRGBO(248, 247, 252, 1),
+        backgroundColor: Theme.of(context).primaryColor,
         titleSpacing: 10.0,
         automaticallyImplyLeading: false,
         elevation: 0.0,
@@ -48,7 +49,7 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
         ),
       ),
-      backgroundColor: Color.fromRGBO(248, 247, 252, 1),
+      backgroundColor: Theme.of(context).primaryColor,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -72,7 +73,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     top: 15.0,
                   ),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
+                    color: Theme.of(context).accentColor,
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey,
@@ -365,7 +366,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   Text(
                     'Already have an account?',
                     style: TextStyle(
-                      color: Colors.black,
+                      // color: Colors.black,
                       fontSize: 16.0,
                       fontWeight: FontWeight.w900,
                     ),
