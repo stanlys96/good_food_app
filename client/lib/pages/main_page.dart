@@ -11,6 +11,7 @@ import '../model/menu.dart';
 import '../services/authService.dart';
 import '../widgets/platform_widget.dart';
 import '../utility/provider_state.dart';
+import '../widgets/navigation_drawer.dart';
 
 class MainPage extends StatefulWidget {
   static final routeName = '/main';
@@ -59,8 +60,9 @@ class _MainPageState extends State<MainPage> {
 
   Widget _buildItem(context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: header(context, userEmail, buttonIcon),
+      backgroundColor: Theme.of(context).primaryColor,
+      appBar: header(context, userEmail),
+      drawer: NavigationDrawerWidget(),
       body: Container(
         padding: EdgeInsets.only(
           left: 30.0,
@@ -94,7 +96,8 @@ class _MainPageState extends State<MainPage> {
                 vertical: 5.0,
               ),
               decoration: BoxDecoration(
-                color: Color.fromRGBO(246, 246, 246, 1),
+                // color: Color.fromRGBO(246, 246, 246, 1),
+                color: Theme.of(context).accentColor,
                 borderRadius: BorderRadius.circular(15.0),
               ),
               child: Row(

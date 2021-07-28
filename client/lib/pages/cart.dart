@@ -26,7 +26,7 @@ class _CartPageState extends State<CartPage> {
         var totalPrice = Provider.of<CartProvider>(newContext).totalPrice;
         return Scaffold(
           appBar: AppBar(
-            backgroundColor: Color.fromRGBO(246, 246, 246, 1),
+            backgroundColor: Theme.of(newContext).accentColor,
             elevation: 0.0,
             leading: IconButton(
               onPressed: () {
@@ -35,7 +35,7 @@ class _CartPageState extends State<CartPage> {
               icon: Icon(Icons.arrow_back),
             ),
           ),
-          backgroundColor: Color.fromRGBO(246, 246, 246, 1),
+          backgroundColor: Theme.of(newContext).accentColor,
           body: Container(
             width: double.infinity,
             padding: EdgeInsets.only(
@@ -44,7 +44,7 @@ class _CartPageState extends State<CartPage> {
               top: 25.0,
             ),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(newContext).primaryColor,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(40.0),
                 topRight: Radius.circular(40.0),
@@ -82,7 +82,7 @@ class _CartPageState extends State<CartPage> {
                     ),
                     BigIconBox(
                       icon: Icons.delete,
-                      color: Colors.black,
+                      color: Theme.of(context).accentColor,
                       deleteAllItems:
                           Provider.of<CartProvider>(newContext).deleteAllCarts,
                     ),

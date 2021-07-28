@@ -12,7 +12,12 @@ showError(String errormessage, BuildContext context) {
             onPressed: () {
               Navigator.pop(context);
             },
-            child: Text('OK'),
+            child: Text(
+              'OK',
+              style: TextStyle(
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
           )
         ],
       );
@@ -32,7 +37,12 @@ showMessage(String message, BuildContext context) {
             onPressed: () {
               Navigator.pop(context);
             },
-            child: Text('OK'),
+            child: Text(
+              'OK',
+              style: TextStyle(
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
           )
         ],
       );

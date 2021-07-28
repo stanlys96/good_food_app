@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-class AuthService {
+class ApiService {
   Dio dio = Dio();
 
   register(full_name, email, password) async {

@@ -6,8 +6,7 @@ import '../model/menu.dart';
 import '../services/authService.dart';
 import '../widgets/platform_widget.dart';
 import '../utility/provider_state.dart';
-
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+import '../common/navigation.dart';
 
 class FavoritesPage extends StatelessWidget {
   static String routeName = 'favorites_page';
@@ -19,16 +18,16 @@ class FavoritesPage extends StatelessWidget {
       builder: (BuildContext newContext) {
         return Scaffold(
           appBar: AppBar(
-            backgroundColor: Color.fromRGBO(246, 246, 246, 1),
+            backgroundColor: Theme.of(newContext).accentColor,
             elevation: 0.0,
             leading: IconButton(
               onPressed: () {
-                Navigator.pop(newContext);
+                Navigation.back();
               },
               icon: Icon(Icons.arrow_back),
             ),
           ),
-          backgroundColor: Color.fromRGBO(246, 246, 246, 1),
+          backgroundColor: Theme.of(newContext).accentColor,
           body: Container(
             width: double.infinity,
             padding: EdgeInsets.only(
@@ -37,7 +36,7 @@ class FavoritesPage extends StatelessWidget {
               top: 25.0,
             ),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(newContext).primaryColor,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(40.0),
                 topRight: Radius.circular(40.0),

@@ -27,7 +27,7 @@ class CategoryCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: isPressed
                 ? Color.fromRGBO(253, 219, 50, 1)
-                : Color.fromRGBO(246, 246, 246, 1),
+                : Theme.of(context).accentColor,
             borderRadius: BorderRadius.circular(15.0),
             // boxShadow: [
             //   BoxShadow(

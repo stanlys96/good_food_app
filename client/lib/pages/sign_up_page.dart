@@ -29,6 +29,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromRGBO(248, 247, 252, 1),
         titleSpacing: 10.0,
         automaticallyImplyLeading: false,
         elevation: 0.0,
@@ -71,7 +72,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     top: 15.0,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Theme.of(context).primaryColor,
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey,

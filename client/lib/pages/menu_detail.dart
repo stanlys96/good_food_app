@@ -75,7 +75,8 @@ class _MenuDetailPageState extends State<MenuDetailPage> {
   Widget _buildItem(context) {
     int theRest = 5 - widget.menu.rating;
     return Scaffold(
-      appBar: header(context, widget.email, buttonIcon),
+      appBar: header(context, widget.email),
+      backgroundColor: Theme.of(context).accentColor,
       body: SafeArea(
         child: Stack(
           children: [
@@ -104,7 +105,7 @@ class _MenuDetailPageState extends State<MenuDetailPage> {
                 ),
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).primaryColor,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(50.0),
                     topRight: Radius.circular(50.0),

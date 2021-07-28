@@ -61,7 +61,7 @@ class _FavoriteCardState extends State<FavoriteCard> {
             right: 10.0,
           ),
           decoration: BoxDecoration(
-            color: Color.fromRGBO(246, 246, 246, 1),
+            color: Theme.of(context).accentColor,
             borderRadius: BorderRadius.circular(15.0),
           ),
           child: Column(

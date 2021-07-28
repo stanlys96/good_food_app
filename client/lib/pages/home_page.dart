@@ -7,7 +7,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,10 +46,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     child: Text(
                       'Login',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black,
-                      ),
+                      style: Theme.of(context).textTheme.caption,
                     ),
                   ),
                 ),
@@ -72,10 +68,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     child: Text(
                       'Register Now',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black,
-                      ),
+                      style: Theme.of(context).textTheme.caption,
                     ),
                   ),
                 ),

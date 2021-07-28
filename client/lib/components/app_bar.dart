@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../pages/cart.dart';
 import '../pages/favorites_page.dart';
 
-AppBar header(BuildContext context, String email, iconButton) {
+AppBar header(BuildContext context, String email) {
   signOut() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('userEmail', '');
@@ -13,8 +13,7 @@ AppBar header(BuildContext context, String email, iconButton) {
   }
 
   return AppBar(
-    backgroundColor: Colors.white,
-    leading: iconButton(context),
+    backgroundColor: Theme.of(context).accentColor,
     actions: [
       IconButton(
         onPressed: () {

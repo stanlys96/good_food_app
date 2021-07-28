@@ -38,6 +38,7 @@ class _SignInPageState extends State<SignInPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromRGBO(248, 247, 252, 1),
         titleSpacing: 10.0,
         automaticallyImplyLeading: false,
         elevation: 0.0,
@@ -80,7 +81,7 @@ class _SignInPageState extends State<SignInPage> {
                     top: 15.0,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Theme.of(context).primaryColor,
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey,
@@ -225,10 +226,7 @@ class _SignInPageState extends State<SignInPage> {
                           child: Text(
                             'Forgot your Password?',
                             textAlign: TextAlign.end,
-                            style: TextStyle(
-                              color: Color.fromRGBO(219, 219, 219, 1),
-                              fontWeight: FontWeight.w900,
-                            ),
+                            style: Theme.of(context).textTheme.overline,
                           ),
                         ),
                       ),

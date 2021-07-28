@@ -28,7 +28,7 @@ class CartBox extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(14.0),
         decoration: BoxDecoration(
-          color: Color.fromRGBO(246, 246, 246, 1),
+          color: Theme.of(context).accentColor,
           borderRadius: BorderRadius.circular(20.0),
         ),
         child: Row(
